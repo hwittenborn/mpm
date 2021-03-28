@@ -1,4 +1,3 @@
-#!/usr/bin/bash
 # Copyright 2020 Hunter Wittenborn <git@hunterwittenborn.me>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,32 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## DEFAULT VARIABLES ##
+## VARIABLES ##
 URL="https://aur.archlinux.org/"
 
-## VARIABLES ##
-CURRENT_USER="$(id -u)"
-BUILD_USER="$(whoami)"
+## DEFAULT VARIABLES ##
+BUILD_USER=$(echo ${USER})
 ROOT_CONFIRM="TRUE"
 
+
 root_check() {
-	## CHECKS WHEN RUNNING AS ROOT ##
-	if [[ "${CURRENT_USER}" == "0" ]] && [[ ${BUILD_USER} == "root" ]]; then
-		echo "A user other than 'root' must be specified to build as when running mpm as root"
-		exit 1
+	if [[ "${ROOT_CONFIRM}" == "TRUE" ]]; then
+		if [[ "$(whoami)" = "root" ]]; then
+			echo "Running makedeb as root is not allowed"
+			exit 1
+		fi
 
-	elif [[ "${CURRENT_USER}" == "0" ]] && ! id ${BUILD_USER} &> /dev/null; then
-		echo "User '${BUILD_USER}' doesn't exist"
-		exit 1
-
-	## OBTAIN ROOT PRIVILEGES WHEN NOT RUNNING AS ROOT ##
-	else
 		echo "Obtaining root privileges..."
-		sudo echo &> /dev/null
+		sudo echo
 		if [[ ${?} != "0" ]]; then
-	 		echo "Couldn't get root privileges"
-	 		exit 1
- 		fi
+		 	echo "Couldn't get root privileges"
+		 	exit 1
+	 	fi
 	fi
 }
 
@@ -48,8 +42,6 @@ arg_check() {
 		case ${1} in
 			--help | "")        help ;;
 			-L | --list-pkg)    LPP="TRUE" ;;
-			-U | --user)        BUILD_USER="${2}"; shift 1 ;;
-			-*)                 echo "Unknown option '${1}'"; exit 1 ;;
 
 			search)        OP="search"; shift 1; break ;;
 			install)       OP="install"; shift 1; break ;;
@@ -63,8 +55,6 @@ arg_check() {
 		case ${1} in
 			--help)             help ;;
 			-L | --list-pkg)    LPP="TRUE" ;;
-			-U | --user)        BUILD_USER="${2}"; shift 1 ;;
-			-*)                 echo "Invalid option '${1}'"; exit 1 ;;
 			"")                 break ;;
 			*)                  PKG+=" ${1}" ;;
 		esac
@@ -84,12 +74,10 @@ help() {
 	echo "Commands"
 	echo "  search - search for a package"
 	echo "  install - install packages from the AUR"
-	echo "  update - update installed AUR packages"
 	echo
 	echo "Options:"
 	echo "  --help - bring up this help menu"
 	echo "  -L, --list-pkg - list each package as it's rendered; for use with 'search'"
-	echo "  -U, --user - specify a user to build as when running as root"
 	echo
 	echo "Report bugs at https://github.com/hwittenborn/mpm"
 	exit 0
@@ -195,12 +183,11 @@ install_pkg() {
 	sudo chown "${BUILD_USER}" /tmp/"${BUILD_USER}"/makedeb
 	cd /tmp/"${BUILD_USER}"/makedeb
 
-	echo "Cloning build files..."
 	for package in ${PKG}; do
+		echo "Cloning '${package}' build files to /tmp/${BUILD_USER}/makedeb/${package}"
 		git clone "${URL}${package}.git" &> /dev/null
-	done
+		cd "${package}"
 
-	for package in ${PKG}; do
 		echo "Look over files for '${package}'?"
 		echo "Enter yes(y) or no(n)"
 		read -p "[>>] " check_files
@@ -212,10 +199,10 @@ install_pkg() {
 		done
 
 		while [[ ${check_files} == "yes" ]] || [[ ${check_files} == "y" ]]; do
-			nano "${package}"/PKGBUILD
-			source "${package}"/PKGBUILD
+			nano PKGBUILD
+			source PKGBUILD
 			for notlink in ${source[@]}; do
-				echo "${notlink}" | grep "http" &> /dev/null
+				echo ${notlink} | grep "http" &> /dev/null
 				if [[ ${?} != "0" ]]; then
 					nano "${notlink}"
 				fi
@@ -232,20 +219,16 @@ install_pkg() {
 				read -p "[>>] " check_files
 			done
 		done
-	done
 
-	echo "Building ${PKG}..."
-	for package in ${PKG}; do
-		cd "${package}"
-		sudo -u "${BUILD_USER}" makedeb --user "${BUILD_USER}" --convert --skip-rootcheck
+		echo "Building '${package}'..."
+		makedeb
 		CONTROL_NAME="$(cat pkg/DEBIAN/control | grep "Package:" | awk '{print $2}')_$(cat pkg/DEBIAN/control | grep "Version:" | awk '{print $2}')_$(cat pkg/DEBIAN/control | grep "Architecture:" | awk '{print $2}')"
 
-		sudo rm /etc/mpm/repo/debs/"$(cat pkg/DEBIAN/control | grep "Package:" | awk '{print $2}')"*
+		sudo rm /etc/mpm/repo/debs/$(cat pkg/DEBIAN/control | grep "Package:" | awk '{print $2}')*
 		sudo cp ${CONTROL_NAME}.deb /etc/mpm/repo/debs
-		cd ..
 	done
 
-	echo "Installing '${PKG}'..."
+	echo "Installing $(echo ${FIND_NULL} | sed 's/ /\n/g' | sed 's/$/,/g' | xargs | rev | cut -c2- | rev)..."
 	cd /etc/mpm/repo
 	dpkg-scanpackages debs | sudo tee Packages &> /dev/null
 	sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/mpm.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" &> /dev/null
@@ -275,6 +258,7 @@ update_pkg() {
 			to_update+=" ${filename}"
 		fi
 	done
+	to_update=$(echo ${to_update} | sed 's/ //')
 
 	if [[ "${to_update}" == "" ]]; then
 		echo "No updates available"
@@ -283,7 +267,7 @@ update_pkg() {
 
 	echo "Updating AUR packages..."
 	ROOT_CONFIRM="FALSE"
-	PKG=${to_update}
+	PKG=${to_update[@]}
 
 	install_pkg
 
