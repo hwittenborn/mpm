@@ -2,7 +2,7 @@
 mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation and updates of packages from the AUR
 
 ## Installation ##
-Hosting is provided by [Gemfury](https://gemfury.com/). Consider using them if you need hosting for your projects
+Hosting is provided by [Gemfury](https://gemfury.com/)
 
 To install, run the following commands:
 ```sh
