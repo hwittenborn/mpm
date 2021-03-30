@@ -117,6 +117,7 @@ search_pkg() {
 				echo
 				echo "$(echo ${RESULTS} | jq -r '.results[].Name' | awk NR==${PKGNUM})/$(echo ${RESULTS} | jq -r '.results[].Version' | awk NR==${PKGNUM})"
 				echo "  Description: $(echo ${RESULTS} | jq -r '.results[].Description' | awk NR==${PKGNUM})"
+				echo "  Votes: $(echo ${RESULTS} | jq -r '.results[].NumVotes' | awk NR==${PKGNUM})"
 
 				MAINTAINER="$(echo ${RESULTS} | jq -r '.results[].Maintainer' | awk NR==${PKGNUM})"
 				if [[ "${MAINTAINER}" == "null" ]]; then
@@ -144,6 +145,7 @@ search_pkg() {
 				echo
 				echo "$(echo ${RESULTS} | jq -r '.results[].Name' | awk NR==${PKGNUM})/$(echo ${RESULTS} | jq -r '.results[].Version' | awk NR==${PKGNUM})"
 				echo "  Description: $(echo ${RESULTS} | jq -r '.results[].Description' | awk NR==${PKGNUM})"
+				echo "  Votes: $(echo ${RESULTS} | jq -r '.results[].NumVotes' | awk NR==${PKGNUM})"
 
 				MAINTAINER="$(echo ${RESULTS} | jq -r '.results[].Maintainer' | awk NR==${PKGNUM})"
 				if [[ "${MAINTAINER}" == "null" ]]; then
