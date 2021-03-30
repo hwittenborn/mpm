@@ -2,11 +2,11 @@
 # Maintainer: Hunter Wittenborn <git@hunterwittenborn.me>
 
 pkgname=mpm
-pkgver=1.0.4
+pkgver=1.0.6
 pkgrel=1
 pkgdesc="Package manager for makedeb"
 arch=('any')
-depends=('makedeb')
+depends=('makedeb' 'jq')
 license=('GPL3')
 url="https://github.com/hwittenborn/mpm"
 
@@ -19,4 +19,8 @@ package() {
   chmod +x "${pkgdir}/usr/bin/mpm"
 
   mkdir -p "${pkgdir}/etc/mpm/repo/debs"
+  
+  ## SET UP APT REPO ##
+  mkdir -p "${pkgdir}/etc/apt/sources.list.d"
+  echo "deb [trusted=yes] file:///etc/mpm/repo /" | tee "${pkgdir}/etc/apt/sources.list.d/mpm.list"
 }
