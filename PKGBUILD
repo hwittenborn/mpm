@@ -2,7 +2,7 @@
 # Maintainer: Hunter Wittenborn <git@hunterwittenborn.me>
 
 pkgname=mpm
-pkgver=1.0.6
+pkgver=1.0.7
 pkgrel=1
 pkgdesc="Package manager for makedeb"
 arch=('any')
