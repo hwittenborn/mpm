@@ -11,16 +11,22 @@ jobs:
       - name: Grab copy of code
         uses: actions/checkout@v2
         
-      - name: Build makepkg into deb
+      - name: Obtain current copy of makepkg
         run: |
-             bash build.sh
-             mv makepkg*.deb makepkg.deb
+             echo "deb [trusted=yes] https://apt.fury.io/hwittenborn/ /" | sudo tee /etc/apt/sources.list.d/hwittenborn.list
+             sudo apt update
+             sudo apt install makepkg -y
+        
+      - name: Build makedeb into deb
+        run: |
+             bash makedeb.sh
+             mv makedeb*.deb makedeb.deb
         
       - name: Copy built deb for publish job
         uses: actions/upload-artifact@v2
         with:
-          name: makepkg
-          path: makepkg.deb				
+          name: makedeb
+          path: makedeb.deb				
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -30,7 +36,7 @@ jobs:
       - name: Pull built deb
         uses: actions/download-artifact@v2
         with:
-          name: makepkg
+          name: makedeb
           
       - name: Push package to repo
-        run: curl -F package=@makepkg.deb "https://${GEMFURY_PAT}@push.fury.io/hwittenborn/"
+        run: curl -F package=@makedeb.deb "https://${GEMFURY_PAT}@push.fury.io/hwittenborn/"
