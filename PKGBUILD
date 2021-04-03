@@ -3,7 +3,7 @@
 
 pkgname=mpm
 pkgver=1.0.7
-pkgrel=1
+pkgrel=2
 pkgdesc="Package manager for makedeb"
 arch=('any')
 depends=('makedeb' 'jq')
