@@ -1,0 +1,36 @@
+name: Build and publish to repo
+on:
+  push:
+    paths:
+      - 'PKGBUILD'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Grab copy of code
+        uses: actions/checkout@v2
+        
+      - name: Build makepkg into deb
+        run: |
+             bash build.sh
+             mv makepkg*.deb makepkg.deb
+        
+      - name: Copy built deb for publish job
+        uses: actions/upload-artifact@v2
+        with:
+          name: makepkg
+          path: makepkg.deb				
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      GEMFURY_PAT: ${{ secrets.GEMFURY_PAT }}
+    steps: 
+      - name: Pull built deb
+        uses: actions/download-artifact@v2
+        with:
+          name: makepkg
+          
+      - name: Push package to repo
+        run: curl -F package=@makepkg.deb "https://${GEMFURY_PAT}@push.fury.io/hwittenborn/"
