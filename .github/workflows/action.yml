@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'PKGBUILD'
+      - '.github/.trigger'
 
 jobs:
   build:
