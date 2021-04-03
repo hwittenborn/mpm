@@ -15,18 +15,18 @@ jobs:
         run: |
              echo "deb [trusted=yes] https://apt.fury.io/hwittenborn/ /" | sudo tee /etc/apt/sources.list.d/hwittenborn.list
              sudo apt update
-             sudo apt install makepkg -y
+             sudo apt install makedeb -y
         
-      - name: Build makedeb into deb
+      - name: Build mpm into deb
         run: |
-             bash makedeb.sh
-             mv makedeb*.deb makedeb.deb
+             bash mpm.sh
+             mv mpm*.deb mpm.deb
         
       - name: Copy built deb for publish job
         uses: actions/upload-artifact@v2
         with:
-          name: makedeb
-          path: makedeb.deb				
+          name: mpm
+          path: mpm.deb				
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
       - name: Pull built deb
         uses: actions/download-artifact@v2
         with:
-          name: makedeb
+          name: mpm
           
       - name: Push package to repo
-        run: curl -F package=@makedeb.deb "https://${GEMFURY_PAT}@push.fury.io/hwittenborn/"
+        run: curl -F package=@mpm.deb "https://${GEMFURY_PAT}@push.fury.io/hwittenborn/"
