@@ -19,7 +19,7 @@ jobs:
         
       - name: Build mpm into deb
         run: |
-             bash mpm.sh
+             makedeb
              mv mpm*.deb mpm.deb
         
       - name: Copy built deb for publish job
