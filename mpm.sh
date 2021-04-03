@@ -219,7 +219,7 @@ install_pkg() {
 			for notlink in ${source[@]}; do
 				echo "${notlink}" | grep "http" &> /dev/null
 				if [[ ${?} != "0" ]]; then
-					nano "${notlink}"
+					nano "${package}"/"${notlink}"
 				fi
 			done
 			sleep 1
