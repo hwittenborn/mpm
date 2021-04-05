@@ -1,5 +1,4 @@
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hwittenborn/mpm/Build%20and%20publish%20to%20repo?label=build%20status&logo=github&style=flat-square)
-![GitHub](https://img.shields.io/github/license/hwittenborn/mpm?style=flat-square)
+![Build Status](https://webhooks.hunterwittenborn.me/static/GitHub/mpm/build-status.svg)
 
 ## Overview ##
 mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation and updates of packages from the AUR
