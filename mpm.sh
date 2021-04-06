@@ -273,7 +273,7 @@ update_pkg() {
 			continue
 		fi
 
-		if [[ "${higer_ver}" != "${filever}" ]]; then
+		if [[ "${higher_ver}" != "${filever}" ]]; then
 			to_update+=" ${filename}"
 		fi
 	done
