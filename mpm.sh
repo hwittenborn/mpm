@@ -24,6 +24,10 @@ ROOT_CONFIRM="TRUE"
 
 root_check() {
 	## CHECKS WHEN RUNNING AS ROOT ##
+	if [[ "${ROOT_CONFIRM}" == "FALSE" ]]; then
+		return
+	fi
+
 	if [[ "${CURRENT_USER}" == "0" ]] && [[ ${BUILD_USER} == "root" ]]; then
 		echo "A user other than 'root' must be specified to build as when running mpm as root"
 		exit 1
@@ -259,13 +263,13 @@ update_pkg() {
 	REPO_FILES=$(ls /etc/mpm/repo/debs)
 
 	for file in ${REPO_FILES[@]}; do
+		filename=$(echo ${file} | awk -F"_" '{print $1}')
 		CHECK_URL="${URL}rpc.php/rpc/?v=5&type=info&arg=${filename}"
 
-		filename=$(echo ${file} | awk -F"_" '{print $1}')
 		filever=$(echo ${file} | awk -F"_" '{print $2}')
 		aurver=$(curl -s "${CHECK_URL}" | jq -r '.results[].Version')
 
-		higher_ver=$(echo ${filever} ${aurver} | sed 's/ /\n/g' | sort -V | awk '{print $1}')
+		higher_ver=$(echo ${filever} ${aurver} | sed 's/ /\n/g' | sort -V | xargs | awk '{print $1}')
 
 		apt list ${filename} 2> /dev/null | grep "\[installed" &> /dev/null
 		if [[ ${?} != "0" ]]; then
