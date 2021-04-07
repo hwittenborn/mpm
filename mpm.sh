@@ -52,13 +52,13 @@ arg_check() {
 		case ${1} in
 			--help | "")        help ;;
 			-L | --list-pkg)    LPP="TRUE" ;;
-			-U | --user)        BUILD_USER="${2}"; shift 1 ;;
+			-U | -u | --user)        BUILD_USER="${2}"; shift 1 ;;
 			-*)                 echo "Unknown option '${1}'"; exit 1 ;;
 
 			search)        OP="search"; shift 1; break ;;
 			install)       OP="install"; shift 1; break ;;
 			update)        OP="update"; PKG="TEMP"; shift 1; break ;;
-			*)             echo "Invalid option '{1}'..."; exit 1 ;;
+			*)             echo "Invalid option '${1}'..."; exit 1 ;;
 		esac
 		shift 1
 	done
@@ -67,7 +67,7 @@ arg_check() {
 		case ${1} in
 			--help)             help ;;
 			-L | --list-pkg)    LPP="TRUE" ;;
-			-U | --user)        BUILD_USER="${2}"; shift 1 ;;
+			-U | -u | --user)        BUILD_USER="${2}"; shift 1 ;;
 			-*)                 echo "Invalid option '${1}'"; exit 1 ;;
 			"")                 break ;;
 			*)                  PKG+=" ${1}" ;;
@@ -93,7 +93,7 @@ help() {
 	echo "Options:"
 	echo "  --help - bring up this help menu"
 	echo "  -L, --list-pkg - list each package as it's rendered; for use with 'search'"
-	echo "  -U, --user - specify a user to build as when running as root"
+	echo "  -U, -u, --user - specify a user to build as when running as root"
 	echo
 	echo "Report bugs at https://github.com/hwittenborn/mpm"
 	exit 0
@@ -281,10 +281,33 @@ update_pkg() {
 			to_update+=" ${filename}"
 		fi
 	done
+	to_update=$(echo "${to_update[@]}" | sed 's/ /\n/g')
 
 	if [[ "${to_update}" == "" ]]; then
 		echo "No updates available"
 		exit 0
+	fi
+
+	echo "The following packages are going to be updated:"
+	echo "${to_update[@]}"
+	echo
+	echo "Continue?"
+	echo "Enter yes(y) or no(n)"
+	echo
+	read -p '[>>] ' continue_status
+
+	while [[ "${continue_status}" != "yes" ]] && \
+	   [[ "${continue_status}" != "y" ]] && \
+		 [[ "${continue_status}" != "no" ]] && \
+		 [[ "${continue_status}" != "n" ]]; do
+			 echo
+	  echo "Invalid option"
+		echo "Enter yes(y) or no(n)"
+		read -p '[>>] ' continue_status
+	done
+  if [[ "${continue_status}" == "no" ]] || \
+	   [[ "${continue_status}" == "n" ]]; then
+	  exit 0
 	fi
 
 	echo "Updating AUR packages..."
