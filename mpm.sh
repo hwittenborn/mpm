@@ -23,28 +23,10 @@ BUILD_USER="$(whoami)"
 ROOT_CONFIRM="TRUE"
 
 root_check() {
-	## CHECKS WHEN RUNNING AS ROOT ##
-	if [[ "${ROOT_CONFIRM}" == "FALSE" ]]; then
-		return
-	fi
-
-	if [[ "${CURRENT_USER}" == "0" ]] && [[ ${BUILD_USER} == "root" ]]; then
-		echo "A user other than 'root' must be specified to build as when running mpm as root"
-		exit 1
-
-	elif [[ "${CURRENT_USER}" == "0" ]] && ! id ${BUILD_USER} &> /dev/null; then
-		echo "User '${BUILD_USER}' doesn't exist"
-		exit 1
-
-	## OBTAIN ROOT PRIVILEGES WHEN NOT RUNNING AS ROOT ##
-	else
-		echo "Obtaining root privileges..."
-		sudo echo &> /dev/null
-		if [[ ${?} != "0" ]]; then
-	 		echo "Couldn't get root privileges"
-	 		exit 1
- 		fi
-	fi
+  if [[ "$(whoami)" == "root" ]]; then
+    echo "Running makedeb as root is not allowed as it can cause irreversable damage to your system."
+    exit 1
+  fi
 }
 
 arg_check() {
@@ -243,7 +225,7 @@ install_pkg() {
 	echo "Building ${PKG}..."
 	for package in ${PKG}; do
 		cd "${package}"
-		sudo -u "${BUILD_USER}" makedeb --user "${BUILD_USER}" --convert --skip-rootcheck
+		makedeb
 		CONTROL_NAME="$(cat pkg/DEBIAN/control | grep "Package:" | awk '{print $2}')_$(cat pkg/DEBIAN/control | grep "Version:" | awk '{print $2}')_$(cat pkg/DEBIAN/control | grep "Architecture:" | awk '{print $2}')"
 
 		sudo rm /etc/mpm/repo/debs/"$(cat pkg/DEBIAN/control | grep "Package:" | awk '{print $2}')"*
