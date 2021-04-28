@@ -7,6 +7,9 @@ volumes:
 trigger:
   event:
     - push
+  paths:
+    include:
+      - mpm.sh
 
 steps:
   - name: build
