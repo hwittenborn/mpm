@@ -9,7 +9,7 @@ trigger:
     - push
   paths:
     include:
-      - mpm.sh
+      - nofile.md
 
 steps:
   - name: build
