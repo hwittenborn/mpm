@@ -10,7 +10,6 @@ trigger:
   paths:
     include:
       - mpm.sh
-      - functions
 
 steps:
   - name: build
