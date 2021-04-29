@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: build and publish to repo
+name: mpm - stable
 trigger:
   event:
     - push
@@ -27,7 +27,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build and publish to repo
+name: mpm - alpha
 trigger:
   event:
     - push
