@@ -1,3 +1,4 @@
+ls -A && exit 1
 # INSTALL CURL
 export DEBIAN_FRONTEND=noninteractive
 apt update
