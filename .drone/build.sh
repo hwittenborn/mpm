@@ -20,3 +20,5 @@ sudo -u user makedeb
 
 echo ${_release_type}
 exit 1
+
+eval echo "$(cat PKGBUILD)"
