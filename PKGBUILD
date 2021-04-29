@@ -3,7 +3,7 @@
 
 pkgname="${pkgname:-mpm}"
 pkgver=1.1.1
-pkgrel=0
+pkgrel=1
 pkgdesc="Package manager for makedeb (${release_type:-custom} release)"
 depends=('makedeb' 'jq')
 conflicts=('mpm-alpha' 'makedeb-alpha')
