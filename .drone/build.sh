@@ -1,4 +1,6 @@
 set -x
+export _pkgname=${_pkgname}
+export _release_type=${_release_type}
 # INSTALL NEEDED PACKAGES
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
