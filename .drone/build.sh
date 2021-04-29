@@ -14,5 +14,3 @@ useradd -m user
 chown user:user /drone/
 chown user:user /drone/src -R
 sudo -u user makedeb
-
-ls -A
