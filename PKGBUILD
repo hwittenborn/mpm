@@ -3,15 +3,17 @@
 
 pkgname="${_pkgname:-mpm}"
 pkgver=1.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Package manager for makedeb (${_release_type:-custom} release)"
 depends=('makedeb' 'jq')
-conflicts=('mpm-alpha' 'makedeb-alpha')
 arch=('any')
 license=('GPL3')
 url="https://github.com/hwittenborn/mpm"
 source=("mpm.sh")
 sha256sums=("SKIP")
+
+# Get config from conf file
+source PKGBUILD.conf
 
 prepare() {
   # Alter variables to use backticks as to work properly with sed section below.
@@ -25,12 +27,11 @@ prepare() {
 }
 
 package() {
-  # Copy makedeb script
+  # Copy makedeb files
   mkdir -p "${pkgdir}/usr/bin/"
   cp "${srcdir}/mpm.sh" "${pkgdir}/usr/bin/mpm"
   chmod +x "${pkgdir}/usr/bin/mpm"
 
-  # Copy functions
   mkdir -p "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
   cp -R "${startdir}"/functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
 
@@ -39,15 +40,3 @@ package() {
   mkdir -p "${pkgdir}/etc/apt/sources.list.d"
   echo "deb [trusted=yes] file://${REPO_DIR} /" | tee "${pkgdir}/etc/apt/sources.list.d/mpm.list"
 }
-
-# Variables to pass to mpm at build time. Omit the last forward slash(/) in
-# the directory name.
-FUNCTIONS_DIR="/usr/local/mpm"
-REPO_DIR="/etc/mpm/repo"
-
-# You shouldn't touch this unless you have an explicit reason to. This is
-# normally used in the CI for deploying an alpha package if set.
-if [[ "${_release_type}" == "alpha" ]]; then
-  depends=('makedeb-alpha' 'jq')
-  conflicts=('mpm' 'makedeb')
-fi
