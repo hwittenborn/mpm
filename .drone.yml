@@ -8,6 +8,7 @@ trigger:
     - stable
   paths:
     - PKGBUILD
+    - .drone/trigger
 
 steps:
   - name: build
@@ -35,6 +36,7 @@ trigger:
     - alpha
   paths:
     - PKGBUILD
+    - .drone/trigger
 
 steps:
   - name: build
