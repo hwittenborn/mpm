@@ -1,3 +1,4 @@
+set -x
 # INSTALL NEEDED PACKAGES
 export DEBIAN_FRONTEND=noninteractive
 apt-get update

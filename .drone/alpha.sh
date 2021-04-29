@@ -1,3 +1,4 @@
+set -x
 source <(cat PKGBUILD | grep -E 'pkgname=|pkgver=')
 
 sed -i "0,/pkgname.*/{s/pkgname.*/pkgname=$pkgname-alpha/}" PKGBUILD
