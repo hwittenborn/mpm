@@ -1,23 +1,17 @@
 # Author: Hunter Wittenborn <git@hunterwittenborn.me>
 # Maintainer: Hunter Wittenborn <git@hunterwittenborn.me>
 
-pkgname=mpm
-pkgver=1.1.0
-pkgrel=6
-pkgdesc="Package manager for makedeb"
-arch=('any')
+pkgname="${pkgname:-mpm}"
+pkgver=1.1.1
+pkgrel=0
+pkgdesc="Package manager for makedeb (${release_type:-custom} release)"
 depends=('makedeb' 'jq')
+conflicts=('mpm-alpha' 'makedeb-alpha')
+arch=('any')
 license=('GPL3')
 url="https://github.com/hwittenborn/mpm"
-
 source=("mpm.sh")
-
 sha256sums=("SKIP")
-
-# Variables to pass to mpm at build time. Omit the last forward slash(/) in
-# the directory name.
-FUNCTIONS_DIR="/usr/local/mpm"
-REPO_DIR="/etc/mpm/repo"
 
 prepare() {
   # Alter variables to use backticks as to work properly with sed section below.
@@ -44,3 +38,15 @@ package() {
   mkdir -p "${pkgdir}/etc/apt/sources.list.d"
   echo "deb [trusted=yes] file://${REPO_DIR} /" | tee "${pkgdir}/etc/apt/sources.list.d/mpm.list"
 }
+
+# Variables to pass to mpm at build time. Omit the last forward slash(/) in
+# the directory name.
+FUNCTIONS_DIR="/usr/local/mpm"
+REPO_DIR="/etc/mpm/repo"
+
+# You shouldn't touch this unless you have an explicit reason to. This is
+# normally used in the CI for deploying an alpha package if set.
+if [[ "${release_type}" == "alpha" ]]; then
+  depends=('makedeb-alpha' 'jq')
+  conflicts=('mpm' 'makedeb')
+fi
