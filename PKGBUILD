@@ -1,10 +1,10 @@
 # Author: Hunter Wittenborn <git@hunterwittenborn.me>
 # Maintainer: Hunter Wittenborn <git@hunterwittenborn.me>
 
-pkgname="${pkgname:-mpm}"
+pkgname="${_pkgname:-mpm}"
 pkgver=1.1.1
 pkgrel=1
-pkgdesc="Package manager for makedeb (${release_type:-custom} release)"
+pkgdesc="Package manager for makedeb (${_release_type:-custom} release)"
 depends=('makedeb' 'jq')
 conflicts=('mpm-alpha' 'makedeb-alpha')
 arch=('any')
@@ -15,6 +15,7 @@ sha256sums=("SKIP")
 
 prepare() {
   # Alter variables to use backticks as to work properly with sed section below.
+  # Values to be edited are at the bottom of the PKGBUILD
   FUNCTIONS_DIR=$(echo "${FUNCTIONS_DIR}" | sed 's;/;\\/;g')
   REPO_DIR=$(echo "${REPO_DIR}" | sed 's;/;\\/;g')
 
@@ -46,7 +47,7 @@ REPO_DIR="/etc/mpm/repo"
 
 # You shouldn't touch this unless you have an explicit reason to. This is
 # normally used in the CI for deploying an alpha package if set.
-if [[ "${release_type}" == "alpha" ]]; then
+if [[ "${_release_type}" == "alpha" ]]; then
   depends=('makedeb-alpha' 'jq')
   conflicts=('mpm' 'makedeb')
 fi
