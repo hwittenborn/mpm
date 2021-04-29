@@ -14,13 +14,19 @@ source=("mpm.sh")
 
 sha256sums=("SKIP")
 
-# makedeb variables
+# Variables to pass to mpm at build time. Omit the last forward slash(/) in
+# the directory name.
 FUNCTIONS_DIR="/usr/local/mpm"
 REPO_DIR="/etc/mpm/repo"
 
 prepare() {
-  sed -i "s;FUNCTIONS_DIR.*;FUNCTIONS_DIR=${FUNCTIONS_DIR};;" mpm.sh
-  sed -i "s;REPO_DIR.*;REPO_DIR=${REPO_DIR};;" mpm.sh
+  # Alter variables to use backticks as to work properly with sed section below.
+  FUNCTIONS_DIR=$(echo "${FUNCTIONS_DIR}" | sed 's;/;\\/;g')
+  REPO_DIR=$(echo "${REPO_DIR}" | sed 's;/;\\/;g')
+
+  # Configure variables in mpm.sh
+  sed -i "0,/FUNCTIONS_DIR.*/{s/FUNCTIONS_DIR.*/FUNCTIONS_DIR=$FUNCTIONS_DIR/}" mpm.sh
+  sed -i "0,/REPO_DIR.*/{s/REPO_DIR.*/REPO_DIR=$REPO_DIR/}" mpm.sh
 }
 
 package() {
