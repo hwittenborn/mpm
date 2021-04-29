@@ -14,6 +14,7 @@ steps:
   - name: build
     image: ubuntu
     commands:
+      - export release_type=stable
       - bash .drone/build.sh
 
   - name: publish
@@ -42,7 +43,8 @@ steps:
   - name: build
     image: ubuntu
     commands:
-      - bash .drone/alpha.sh
+      - export pkgname=mpm-alpha
+      - export release_type=alpha
       - bash .drone/build.sh
 
   - name: publish
