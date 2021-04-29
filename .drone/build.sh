@@ -1,6 +1,6 @@
 set -x
-export _pkgname=$${_pkgname}
-export _release_type=$${_release_type}
+export _pkgname=${_pkgname}
+export _release_type=${_release_type}
 # INSTALL NEEDED PACKAGES
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
@@ -17,3 +17,6 @@ useradd -m user
 chown user:user /drone/
 chown user:user /drone/src -R
 sudo -u user makedeb
+
+echo ${_release_type}
+exit 1
