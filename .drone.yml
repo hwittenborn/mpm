@@ -19,10 +19,10 @@ triggers:
     - .trigger
 
 steps:
-  name: build
-  image: ubuntu
-  commands:
-    - scripts/build.sh
+  - name: build
+    image: ubuntu
+    commands:
+      - scripts/build.sh
 ---
 kind: signature
 hmac: 633c20c32163d4033b2041476cb4bb39237b96f03c42c6a8c4773fd8e2883ed1
