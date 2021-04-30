@@ -4,11 +4,11 @@ kind: pipeline
 type: docker
 environment:
   test: testing
-  pkgname: mpm\-alpha
-   release-type: alpha
+  pkgname: mpm-alpha
+  release-type: alpha
   nexus_repository_password:
     from_secret: nexus_repository_password
-   DEBIAN_FRONTEND: noninteractive
+  DEBIAN_FRONTEND: noninteractive
 
 trigger:
   event:
