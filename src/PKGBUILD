@@ -1,10 +1,10 @@
 # Author: Hunter Wittenborn <git@hunterwittenborn.me>
 # Maintainer: Hunter Wittenborn <git@hunterwittenborn.me>
 
-pkgname="${_pkgname:-mpm}"
+pkgname="${pkgname}"
 pkgver=1.1.1
 pkgrel=2
-pkgdesc="Package manager for makedeb (${_release_type:-custom} release)"
+pkgdesc="Package manager for makedeb (${release_type} release)"
 depends=('makedeb' 'jq')
 arch=('any')
 license=('GPL3')
