@@ -1,13 +1,13 @@
 ---
+name: Build and Publish (Alpha Release)
 kind: pipeline
 type: docker
-name: Build and Publish Alpha
-# environment:
-#  pkgname: mpm-alpha
-#  release-type: alpha
-#  nexus_repository_password:
-#    from_secret: nexus_repository_password
-#  DEBIAN_FRONTEND: noninteractive
+environment:
+  pkgname: mpm-alpha
+  release-type: alpha
+  nexus_repository_password:
+    from_secret: nexus_repository_password
+  DEBIAN_FRONTEND: noninteractive
 
 triggers:
   event:
@@ -25,6 +25,6 @@ steps:
       - scripts/build.sh
 ---
 kind: signature
-hmac: 86369283e80fb22046f6d7bc59b8824231d784cb3afbe340937a8e011a006d3b
+hmac: 0a835fbe6548c4a32436c1a0f56701623fcdd985f2f410cf0b1c36f51fadd721
 
 ...
