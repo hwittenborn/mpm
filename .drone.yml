@@ -16,7 +16,7 @@ trigger:
     - alpha
   paths:
     - src/PKGBUILD
-    - .trigger
+    - /.trigger
 
 steps:
   - name: build
@@ -25,6 +25,6 @@ steps:
       - scripts/build.sh
 ---
 kind: signature
-hmac: 7dba4a0ca495722f70b7247d707e8d380192561f7346d9c4b3cea31f99963cbf
+hmac: 29b7a1c0704de5215d0391e992ba6d1a583138fb9400beb41d4fe14916594884
 
 ...
