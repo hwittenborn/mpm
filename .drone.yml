@@ -1,0 +1,24 @@
+name: Build and Publish (Alpha Release)
+kind: pipeline
+type: docker
+environment:
+  pkgname: mpm-alpha
+  release-type: alpha
+  nexus_repository_password:
+    from_secret: nexus_repository_password
+  DEBIAN_FRONTEND: noninteractive
+
+triggers:
+  event:
+    - push
+  branch:
+    - alpha
+  paths:
+    - src/PKGBUILD
+    - .trigger
+
+steps:
+  name: build
+  image: ubuntu
+  commands:
+    - scripts/build.sh
