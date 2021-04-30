@@ -16,8 +16,9 @@ trigger:
   branch:
     - alpha
   paths:
-    - src/PKGBUILD
-    - .trigger
+    include:
+      - src/PKGBUILD
+      - .trigger
 
 steps:
   - name: build
