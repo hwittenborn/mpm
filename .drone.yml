@@ -9,7 +9,7 @@ environment:
     from_secret: nexus_repository_password
   DEBIAN_FRONTEND: noninteractive
 
-triggers:
+trigger:
   event:
     - push
   branch:
