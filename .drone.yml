@@ -25,6 +25,6 @@ steps:
       - scripts/build.sh
 ---
 kind: signature
-hmac: 0a835fbe6548c4a32436c1a0f56701623fcdd985f2f410cf0b1c36f51fadd721
+hmac: 326a94ba5b1f35dbd7922400906fdef3e005e7fa8ad3bc74aabb9ae66ab07a51
 
 ...
