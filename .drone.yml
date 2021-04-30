@@ -1,5 +1,6 @@
 ---
-name: 'Build and Publish (Alpha Release)'
+name: |
+      Build and Publish (Alpha Release)
 kind: pipeline
 type: docker
 environment:
@@ -25,6 +26,6 @@ steps:
       - scripts/build.sh
 ---
 kind: signature
-hmac: 27b0d7a98618be4dc225b287284afff98cc339afed62d098317119a48b1bb29f
+hmac: c80556cbcbdf25dc89787cdd142686c9c5d9784cd7c9d052e924ad62e5555f67
 
 ...
