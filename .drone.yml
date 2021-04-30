@@ -4,7 +4,7 @@ kind: pipeline
 type: docker
 environment:
   test: testing
-  pkgname: mpm-alpha
+  pkgname: mpm\-alpha
   release-type: alpha
   nexus_repository_password:
     from_secret: nexus_repository_password
@@ -26,6 +26,6 @@ steps:
       - scripts/build.sh
 ---
 kind: signature
-hmac: 3f33471f946742bf2a4adfc144ed13552d2dacd21513e2c11160f12053ae6f73
+hmac: 0bd067baf86af239a29ff6d44954f8e4abeba37c9be15a7952245799d21b7c88
 
 ...
