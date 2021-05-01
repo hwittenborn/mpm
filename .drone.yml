@@ -1,4 +1,4 @@
-name: Build and Publish (Alpha Release)
+name: Build and Publish
 kind: pipeline
 type: docker
 environment:
