@@ -4,12 +4,8 @@ type: docker
 environment:
   release_type: alpha
   DPKG_FRONTEND: noninteractive
-
-clone:
-  - name: Clone
-
 steps:
-  - name: Build
+  - name: build
     image: ubuntu
     commands:
       - scripts/build.sh
