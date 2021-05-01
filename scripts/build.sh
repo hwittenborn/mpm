@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
-# Set up PKGBUILD
-echo "+ Setting up PKGBUILD"
-{ envsubst < src/PKGBUILD; } > src/PKGBUILD
-
 # Install needed packages
 echo "+ Installing needed packages"
 apt update
-apt install sudo wget -y
+apt install sudo wget gettext-base -y
+
+# Set up PKGBUILD
+echo "+ Setting up PKGBUILD"
+if [[ "${release_type}" == "stable" ]]; then
+  export pkgname="mpm"
+elif [[ "${release_type}" == "alpha" ]]; then
+  export pkgname="mpm-alpha"
+fi
+
+"$(envsubst < src/PKGBUILD)" > src/PKGBUILD
+
 
 # Set up repository and install makedeb
 echo "+ Setting up repository"

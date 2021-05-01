@@ -1,3 +1,4 @@
+---
 name: Build and Publish (Alpha Release)
 kind: pipeline
 type: docker
@@ -6,9 +7,7 @@ environment:
   DPKG_FRONTEND: noninteractive
 trigger:
   branch:
-    include:
-      - stable
-      - alpha
+    - alpha
 steps:
   - name: build
     image: ubuntu
