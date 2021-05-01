@@ -4,8 +4,6 @@ type: docker
 environment:
   release_type: alpha
   DPKG_FRONTEND: noninteractive
-  nexus_repository_password:
-    from_secret: nexus_repository_password
 
 steps:
   - name: build
