@@ -1,12 +1,15 @@
+name: Build and Publish (Alpha Release)
 kind: pipeline
 type: docker
-name: mpm - alpha
 environment:
   release_type: alpha
   DPKG_FRONTEND: noninteractive
 
+clone:
+  name: Clone
+
 steps:
-  - name: build
+  - name: Build
     image: ubuntu
     commands:
       - scripts/build.sh
