@@ -1,6 +1,9 @@
 kind: pipeline
 type: docker
 name: build and publish
+trigger:
+  event:
+    - push
 environment:
   release_type: alpha
   DPKG_FRONTEND: noninteractive
