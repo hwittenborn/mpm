@@ -6,7 +6,7 @@ environment:
   DPKG_FRONTEND: noninteractive
 
 clone:
-  name: Clone
+  - name: Clone
 
 steps:
   - name: Build
