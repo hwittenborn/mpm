@@ -1,6 +1,6 @@
-name: Build and Publish
 kind: pipeline
 type: docker
+name: build and publish
 environment:
   release_type: alpha
   DPKG_FRONTEND: noninteractive
