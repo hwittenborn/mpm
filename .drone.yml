@@ -2,9 +2,9 @@
 name: Build and Publish (Alpha Release)
 kind: pipeline
 type: docker
-#environment:
-#  release_type: alpha
-#  DPKG_FRONTEND: noninteractive
+environment:
+  release_type: alpha
+  DPKG_FRONTEND: noninteractive
 trigger:
   branch:
     - alpha
