@@ -4,6 +4,11 @@ type: docker
 environment:
   release_type: alpha
   DPKG_FRONTEND: noninteractive
+trigger:
+  branch:
+    include:
+      - stable
+      - alpha
 steps:
   - name: build
     image: ubuntu
