@@ -1,7 +1,7 @@
 ---
-name: Build and Publish (Alpha Release)
 kind: pipeline
 type: docker
+name: Build and Publish (Alpha Release)
 environment:
   test: testing
   pkgname: mpm\-alpha
@@ -27,6 +27,6 @@ steps:
       - scripts/build.sh
 ---
 kind: signature
-hmac: 0bd067baf86af239a29ff6d44954f8e4abeba37c9be15a7952245799d21b7c88
+hmac: 7e43f689b59fafaed35c9468c978f298fba21ec012d682675fc7d479585a2784
 
 ...
