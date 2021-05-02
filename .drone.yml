@@ -10,6 +10,6 @@ steps:
     image: ubuntu
     environment:
       pkgname: mpm-alpha
-      release-type: alpha
+      release_type: alpha
     commands:
       - scripts/build.sh
