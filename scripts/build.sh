@@ -15,7 +15,7 @@ elif [[ "${release_type}" == "alpha" ]]; then
 fi
 
 cat src/PKGBUILD | envsubst '$pkgname $release_type $FUNCTIONS_DIR $REPO_DIR' > src/PKGBUILD
-
+cat src/PKGBUILD && exit 1
 
 # Set up repository and install makedeb
 echo "+ Setting up repository"
