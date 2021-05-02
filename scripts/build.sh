@@ -4,7 +4,7 @@ set -e
 # Install needed packages
 echo "+ Installing needed packages"
 apt update
-apt install sudo wget gettext-base -y
+apt install sudo wget -y
 
 # Set up PKGBUILD
 echo "+ Setting up PKGBUILD"
@@ -15,7 +15,9 @@ elif [[ "${release_type}" == "alpha" ]]; then
   sed -i "s/depends=.*/depends=('makedeb-alpha' 'jq')/" src/PKGBUILD
   sed -i "s/conflicts=.*/conflicts=('mpm')/" src/PKGBUILD
 fi
-cat src/PKGBUILD | envsubst '$pkgname $release_type $FUNCTIONS_DIR $REPO_DIR' | tee src/PKGBUILD
+
+for i in pkgname release_type FUNCTIONS_DIR REPO_DIR; do
+  eval sed -i "s/\\${$i}/\${$i}/g" src/PKGBUILD
 
 # Set up repository and install makedeb
 echo "+ Setting up repository"
