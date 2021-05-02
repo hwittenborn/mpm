@@ -13,8 +13,8 @@ if [[ "${release_type}" == "stable" ]]; then
 elif [[ "${release_type}" == "alpha" ]]; then
   export pkgname="mpm-alpha"
 fi
+cat src/PKGBUILD | envsubst '$pkgname $release_type $FUNCTIONS_DIR $REPO_DIR' | tee src/PKGBUILD &> /dev/null
 
-cat src/PKGBUILD | envsubst '$pkgname $release_type $FUNCTIONS_DIR $REPO_DIR' && exit 1
 # Set up repository and install makedeb
 echo "+ Setting up repository"
 wget 'https://hunterwittenborn.com/keys/apt.asc' -O /etc/apt/trusted.gpg.d/hwittenborn.asc
