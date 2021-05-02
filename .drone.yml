@@ -9,7 +9,12 @@ steps:
   - name: build
     image: ubuntu
     environment:
+      # PKGBUILD variables
       pkgname: mpm-alpha
       release_type: alpha
+      FUNCTIONS_DIR: /usr/lib/mpm
+      REPO_DIR: /etc/mpm/repo
+      # Other stuff
+      DPKG_FRONTEND: noninteractive
     commands:
       - scripts/build.sh
