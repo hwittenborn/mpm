@@ -15,6 +15,6 @@ steps:
       FUNCTIONS_DIR: /usr/lib/mpm
       REPO_DIR: /etc/mpm/repo
       # Other stuff
-      DPKG_FRONTEND: noninteractive
+      DEBIAN_FRONTEND: noninteractive
     commands:
       - scripts/build.sh
