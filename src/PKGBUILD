@@ -33,7 +33,7 @@ package() {
   cp -R "${pkgdir}"/../functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
 
   # SET UP APT REPO
-  mkdir -p "${pkgdir}/etc/mpm/repo/debs"
+  mkdir -p "${pkgdir}${REPO_DIR}/debs"
   mkdir -p "${pkgdir}/etc/apt/sources.list.d"
   echo "deb [trusted=yes] file://${REPO_DIR} /" | tee "${pkgdir}/etc/apt/sources.list.d/mpm.list"
 }
