@@ -13,7 +13,7 @@ if [[ "${release_type}" == "stable" ]]; then
 elif [[ "${release_type}" == "alpha" ]]; then
   export pkgname="mpm-alpha"
 fi
-cat src/PKGBUILD | envsubst '$pkgname $release_type $FUNCTIONS_DIR $REPO_DIR' | tee src/PKGBUILD
+cat src/PKGBUILD | envsubst '$pkgname $release_type $FUNCTIONS_DIR $REPO_DIR'
 
 # Set up repository and install makedeb
 echo "+ Setting up repository"
