@@ -8,5 +8,8 @@ trigger:
 steps:
   - name: build
     image: ubuntu
+    environment:
+      pkgname: mpm-alpha
+      release-type: alpha
     commands:
       - scripts/build.sh
