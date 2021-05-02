@@ -9,7 +9,8 @@ apt install curl -y
 # Make sure only a single package is present
 echo "+ Checking number of packages present"
 cd src
-if [[ "$(find *.deb | wc -w)" != "1" ]]; then
+package="$(find *.deb)"
+if [[ "$(echo ${package[@]} | wc -w)" != "1" ]]; then
   echo "More than one package was present"
   exit 1
 fi
@@ -19,7 +20,7 @@ echo "+ Pushing package to repository"
 curl_output=$(curl -s \
                    -u "system:${nexus_repository_password}" \
                    -H "Content-Type: multipart/form-data" \
-                   --data-binary "@./*.deb" \
+                   --data-binary "@./${package}" \
                    "https://nexus.hunterwittenborn.com/repository/makedeb/")
 
 if [[ "${curl_output}" != "" ]]; then
