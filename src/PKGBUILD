@@ -26,14 +26,14 @@ prepare() {
 package() {
   # Copy makedeb files
   mkdir -p "${pkgdir}/usr/bin/"
-  cp "${srcdir}/src/mpm.sh" "${pkgdir}/usr/bin/mpm"
+  cp "${srcdir}/mpm.sh" "${pkgdir}/usr/bin/mpm"
   chmod +x "${pkgdir}/usr/bin/mpm"
 
   mkdir -p "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
-  cp -R "${pkgdir}"/../src/functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions/"
+  cp -R "${srcdir}"/../functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions/"
 
   # SET UP APT REPO
-  mkdir -p "${pkgdir}${REPO_DIR}/debs"
+  mkdir -p "${pkgdir}/${REPO_DIR}/debs"
   mkdir -p "${pkgdir}/etc/apt/sources.list.d"
   echo "deb [trusted=yes] file://${REPO_DIR} /" | tee "${pkgdir}/etc/apt/sources.list.d/mpm.list"
 }
