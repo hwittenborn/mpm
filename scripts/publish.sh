@@ -23,6 +23,7 @@ curl_output=$(curl -s \
                    "https://nexus.hunterwittenborn.com/repository/makedeb/")
 
 if [[ "${curl_output}" != "" ]]; then
+  echo "${curl_output}"
   echo "An error occured when uploading the package"
   exit 1
 fi
