@@ -25,4 +25,4 @@ steps:
         from_secret: nexus_repository_password
       DEBIAN_FRONTEND: noninteractive
     commands:
-      - scripts/build.sh
+      - scripts/publish.sh
