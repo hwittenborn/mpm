@@ -30,7 +30,7 @@ package() {
   chmod +x "${pkgdir}/usr/bin/mpm"
 
   mkdir -p "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
-  cp -R "${startdir}"/functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
+  cp -R "${pkgdir}"/../functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
 
   # SET UP APT REPO
   mkdir -p "${pkgdir}/etc/mpm/repo/debs"
