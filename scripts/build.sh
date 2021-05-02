@@ -16,10 +16,9 @@ elif [[ "${release_type}" == "alpha" ]]; then
   sed -i "s/conflicts=.*/conflicts=('mpm')/" src/PKGBUILD
 fi
 
-sed -i "s/\${pkgname}/$pkgname/g" src/PKGBUILD
-sed -i "s/\${release_type}/$release_type/g" src/PKGBUILD
-sed -i "s/\${FUNCTIONS_DIR}/$FUNCTIONS_DIR/g" src/PKGBUILD
-sed -i "s/\${REPO_DIR}/$REPO_DIR/g" src/PKGBUILD
+for variable in pkgname release_type FUNCTIONS_DIR REPO_DIR; do
+  eval "sed -i s/\\\${$variable}/$(eval echo \${$variable})/g src/PKGBUILD"
+done
 
 # Set up repository and install makedeb
 echo "+ Setting up repository"
