@@ -3,9 +3,10 @@
 
 pkgname="${pkgname}"
 pkgver=1.1.1
-pkgrel=3
+pkgrel=4
 pkgdesc="Package manager for makedeb (${release_type} release)"
 depends=('makedeb' 'jq')
+conflicts=('mpm-alpha')
 arch=('any')
 license=('GPL3')
 url="https://github.com/hwittenborn/mpm"
