@@ -17,7 +17,7 @@ elif [[ "${release_type}" == "alpha" ]]; then
 fi
 
 for variable in pkgname release_type FUNCTIONS_DIR REPO_DIR; do
-  eval "sed -i s/\\\${$variable}/$(eval echo \${$variable})/g src/PKGBUILD"
+  sed s/"${variable}"/"$(eval echo \${$variable})"/g src/PKGBUILD
 done
 
 # Set up repository and install makedeb
