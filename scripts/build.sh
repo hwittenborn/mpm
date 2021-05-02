@@ -18,6 +18,7 @@ fi
 
 for i in pkgname release_type FUNCTIONS_DIR REPO_DIR; do
   eval sed -i "s/\\${$i}/\${$i}/g" src/PKGBUILD
+done
 
 # Set up repository and install makedeb
 echo "+ Setting up repository"
