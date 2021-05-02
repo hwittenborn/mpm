@@ -19,8 +19,8 @@ prepare() {
   REPO_DIR=$(echo "${REPO_DIR}" | sed 's;/;\\/;g')
 
   # Configure variables in mpm.sh
-  sed -i "0,/FUNCTIONS_DIR.*/{s/FUNCTIONS_DIR.*/FUNCTIONS_DIR=$FUNCTIONS_DIR/}" mpm.sh
-  sed -i "0,/REPO_DIR.*/{s/REPO_DIR.*/REPO_DIR=$REPO_DIR/}" mpm.sh
+  sed -i "0,/FUNCTIONS_DIR.*/{s;FUNCTIONS_DIR.*;FUNCTIONS_DIR=$FUNCTIONS_DIR;}" mpm.sh
+  sed -i "0,/REPO_DIR.*/{s;REPO_DIR.*;REPO_DIR=$REPO_DIR;}" mpm.sh
 }
 
 package() {
