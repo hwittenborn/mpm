@@ -21,7 +21,7 @@ LIST_PER_PACKAGE="FALSE"
 # The following are changed via the PKGBUILD at build time. If you'd like to
 # modify them, edit the variables there.
 FUNCTIONS_DIR="."
-REPO_DIR=""
+REPO_DIR="/etc/mpm/repo/"
 
 ##################
 ## BEGIN SCRIPT ##
