@@ -5,8 +5,8 @@ create_builddir() {
     rm -rf /tmp/"${USER}"/makedeb || { echo "Couldn't delete old build directory"; exit 1; }
   fi
 
-  sudo mkdir -p /tmp/"${USER}"/makedeb &> /dev/null
-  sudo chown "${USER}" /tmp/"${USER}"/makedeb
+  mkdir -p /tmp/"${USER}"/makedeb &> /dev/null
+  chown "${USER}" /tmp/"${USER}"/makedeb
   cd /tmp/"${USER}"/makedeb
 
 }
