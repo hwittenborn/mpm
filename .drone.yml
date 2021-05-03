@@ -12,6 +12,7 @@ environment:
     from_secret: nexus_repository_password
   # Other stuff
   DEBIAN_FRONTEND: noninteractive
+
 trigger:
   branch:
     - stable
