@@ -7,9 +7,6 @@ environment:
   release_type: stable
   FUNCTIONS_DIR: /usr/lib/mpm
   REPO_DIR: /etc/mpm/repo
-  # Secrets
-  nexus_repository_password:
-    from_secret: nexus_repository_password
   # Other stuff
   DEBIAN_FRONTEND: noninteractive
 
@@ -24,6 +21,9 @@ steps:
 
   - name: publish
     image: ubuntu
+    environment:
+      nexus_repository_password:
+        from_secret: nexus_repository_password
     commands:
       - scripts/publish.sh
 
@@ -36,9 +36,6 @@ environment:
   release_type: alpha
   FUNCTIONS_DIR: /usr/lib/mpm
   REPO_DIR: /etc/mpm/repo
-  # Secrets
-  nexus_repository_password:
-    from_secret: nexus_repository_password
   # Other stuff
   DEBIAN_FRONTEND: noninteractive
 
@@ -53,5 +50,8 @@ steps:
 
   - name: publish
     image: ubuntu
+    environment:
+      nexus_repository_password:
+        from_secret: nexus_repository_password
     commands:
       - scripts/publish.sh
