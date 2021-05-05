@@ -1,6 +1,6 @@
 #!/usr/bin/bash
-# Copyright 2020 Hunter Wittenborn <git@hunterwittenborn.me>
-#
+# Copyright 2020-2021 Hunter Wittenborn <hunter@hunterwittenborn.com>
+##
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
