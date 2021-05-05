@@ -1,9 +1,9 @@
-# Author: Hunter Wittenborn <git@hunterwittenborn.me>
-# Maintainer: Hunter Wittenborn <git@hunterwittenborn.me>
+# Author: Hunter Wittenborn <hunter@hunterwittenborn.com>
+# Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname="${pkgname}"
-pkgver=1.2.0
-pkgrel=3
+pkgver=1.2.1
+pkgrel=1
 pkgdesc="Package manager for makedeb (${release_type} release)"
 depends=('makedeb' 'jq')
 conflicts=('mpm-alpha')
