@@ -2,7 +2,7 @@ print_results() {
 
   for pkg in $(echo ${RESULTS} | jq -r '.results[].Name'); do
     echo
-    echo "$(echo ${RESULTS} | jq -r '.results[].Name' | awk NR==${PKGNUM})/$(echo ${RESULTS} | jq -r '.results[].Version' | awk NR==${PKGNUM})"
+    echo "$(echo ${RESULTS} | jq -r '.results[].Name' | awk NR==${PKGNUM})/$(echo ${RESULTS} | jq -r '.results[].Version' | awk NR==${PKGNUM})  AUR"
     echo "  Description: $(echo ${RESULTS} | jq -r '.results[].Description' | awk NR==${PKGNUM})"
     echo "  Votes: $(echo ${RESULTS} | jq -r '.results[].NumVotes' | awk NR==${PKGNUM})"
 
