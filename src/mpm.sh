@@ -19,7 +19,8 @@ aur_url="https://aur.archlinux.org/"
 LIST_PER_PACKAGE="FALSE"
 
 # The following are changed via the PKGBUILD at build time. If you'd like to
-# modify them, edit the variables there.
+# modify them at build time, export the variables to your shell's environment
+# and run makedeb.
 FUNCTIONS_DIR="."
 REPO_DIR="/etc/mpm/repo/"
 
