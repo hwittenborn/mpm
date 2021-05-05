@@ -13,7 +13,7 @@ clone_pkg() {
   fi
 
   for pkg in ${PKG}; do
-    URL_SEARCH="${URL}rpc.php/rpc/?v=5&type=info&arg=${pkg}"
+    URL_SEARCH="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${pkg}"
     result_count="$(curl -s ${URL_SEARCH} | jq .resultcount)"
 
     if [[ "${result_count}" == "0" ]]; then
@@ -28,6 +28,6 @@ clone_pkg() {
 
   for pkg in ${PKG}; do
     echo "Cloning ${pkg}..."
-    git clone "${URL}${pkg}.git"
+    git clone "${aur_url}${pkg}.git"
   done
 }

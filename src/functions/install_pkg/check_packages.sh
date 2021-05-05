@@ -1,7 +1,7 @@
 check_packages() {
 
   for package in ${PKG}; do
-    CHECK_URL="${URL}rpc.php/rpc/?v=5&type=info&arg=${package}"
+    CHECK_URL="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${package}"
     RESULTS=$(curl -s "${CHECK_URL}" | jq)
 
     if [[ $(echo ${RESULTS} | jq -r '.resultcount') == "0" ]]; then

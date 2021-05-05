@@ -2,7 +2,7 @@ clone_files() {
 
   echo "Cloning build files..."
   for package in ${PKG}; do
-    git clone "${URL}${package}.git" &> /dev/null
+    git clone "${aur_url}${package}.git" &> /dev/null
   done
 
   for package in ${PKG}; do

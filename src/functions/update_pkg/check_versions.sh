@@ -2,7 +2,7 @@ check_versions() {
 
   for file in ${REPO_FILES[@]}; do
     filename=$(echo ${file} | awk -F"_" '{print $1}')
-    CHECK_URL="${URL}rpc.php/rpc/?v=5&type=info&arg=${filename}"
+    CHECK_URL="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${filename}"
 
     filever=$(echo ${file} | awk -F"_" '{print $2}')
     aurver=$(curl -s "${CHECK_URL}" | jq -r '.results[].Version')

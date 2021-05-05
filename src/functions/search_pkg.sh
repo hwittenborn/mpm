@@ -4,7 +4,7 @@ search_pkg() {
 
 	echo "Searching for '${PKG}'..."
 
-	URL="${URL}rpc.php/rpc/?v=5&type=search&arg=${PKG}"
+	URL="${aur_url}rpc.php/rpc/?v=5&type=search&arg=${PKG}"
 	RESULTS=$(curl -s "${URL}" | jq)
 
 	if [[ $(echo ${RESULTS} | jq -r '.resultcount') == "0" ]]; then

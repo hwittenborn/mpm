@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Options
-URL="https://aur.archlinux.org/"
+aur_url="https://aur.archlinux.org/"
 LIST_PER_PACKAGE="FALSE"
 
 # The following are changed via the PKGBUILD at build time. If you'd like to
