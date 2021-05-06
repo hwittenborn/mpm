@@ -15,12 +15,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Options
-aur_url="https://aur.archlinux.org/"
 LIST_PER_PACKAGE="FALSE"
 
+# URLs needed to function
+aur_url="https://aur.archlinux.org/"
+arch_repository_search_url="https://archlinux.org/packages/search/json/?name="
+
 # The following are changed via the PKGBUILD at build time. If you'd like to
-# modify them at build time, export the variables to your shell's environment
-# and run makedeb.
+# modify them, export the variables (with the desired directories) to your
+# shell's environment and run makedeb.
 FUNCTIONS_DIR="."
 REPO_DIR="/etc/mpm/repo/"
 
