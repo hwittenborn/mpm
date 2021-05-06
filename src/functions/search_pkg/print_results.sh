@@ -40,10 +40,11 @@ arch_repository_print_results() {
              wc -w) ]]; do
 
     printf "\n$( echo ${arch_repository_search_results} | jq -r .results[].pkgname | awk NR==${PKGNUM} )"
+    printf "/"
     if [[ $( echo ${arch_repository_search_results} | jq -r .results[].epoch | awk NR==${PKGNUM} ) != "1" ]]; then
-      printf "$( echo ${arch_repository_search_results} | jq -r .results[].pkgver | awk NR==${PKGNUM} ):"
+      printf "$( echo ${arch_repository_search_results} | jq -r .results[].epoch | awk NR==${PKGNUM} ):"
     fi
-    printf "/$( echo ${arch_repository_search_results} | jq -r .results[].pkgver | awk NR==${PKGNUM} )"
+    printf "$( echo ${arch_repository_search_results} | jq -r .results[].pkgver | awk NR==${PKGNUM} )"
     printf -- "-$( echo ${arch_repository_search_results} | jq -r .results[].pkgrel | awk NR==${PKGNUM} )"
     printf "  Arch Repositories"
 

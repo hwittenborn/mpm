@@ -20,6 +20,8 @@ LIST_PER_PACKAGE="FALSE"
 # URLs needed to function
 aur_url="https://aur.archlinux.org/"
 arch_repository_search_url="https://archlinux.org/packages/search/json/?name="
+arch_archive_url="https://archive.archlinux.org/"
+arch_github_url="https://github.com/archlinux"
 
 # The following are changed via the PKGBUILD at build time. If you'd like to
 # modify them, export the variables (with the desired directories) to your
@@ -30,6 +32,7 @@ REPO_DIR="/etc/mpm/repo/"
 ##################
 ## BEGIN SCRIPT ##
 ##################
+set -e
 source <(cat "${FUNCTIONS_DIR}"/functions/*.sh)
 source <(cat "${FUNCTIONS_DIR}"/functions/*/*.sh)
 

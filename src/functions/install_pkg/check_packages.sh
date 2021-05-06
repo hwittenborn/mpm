@@ -1,11 +1,23 @@
 check_packages() {
 
-  for package in ${PKG}; do
-    CHECK_URL="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${package}"
-    RESULTS=$(curl -s "${CHECK_URL}" | jq)
+  for i in ${PKG}; do
+    aur_search_url="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${i}"
 
-    if [[ $(echo ${RESULTS} | jq -r '.resultcount') == "0" ]]; then
-      FIND_NULL+=" ${package}"
+    aur_search_results=$(curl -s "${aur_search_url}")
+    arch_repository_search_results=$(curl -s "${arch_repository_search_url}${i}")
+
+    if [[ $(echo ${aur_search_results} | jq -r '.resultcount') != "0" ]]; then
+      aur_packages+=" ${i}"
+    elif [[ $(echo ${arch_repository_search_results} | \
+              grep pkgname | \
+              sed 's|"||g' | \
+              sed 's|pkgname: ||g' | \
+              sed 's|,||g' | \
+              sed 's| ||g' | \
+              wc -w) != "0" ]]; then
+      arch_repository_packages+=" ${i}"
+    else
+      FIND_NULL+="${i}"
     fi
 
     FIND_NULL=$(echo "${FIND_NULL}" | sed 's/ //')
@@ -17,3 +29,6 @@ check_packages() {
   done
 
 }
+
+aur_packages=$(echo ${aur_packages} | xargs)
+arch_repository_packages=$(echo ${arch_repository_packages} | xargs)

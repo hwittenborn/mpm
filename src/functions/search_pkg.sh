@@ -23,7 +23,7 @@ search_pkg() {
 								 sed 's|pkgname: ||g' | \
 								 sed 's|,||g' | \
 								 sed 's| ||g' | \
-								 wc -w) )) > "50" ]]; then
+								 wc -w) )) > "25" ]]; then
 		echo "Large amount of results detected. This might take a bit..."
 	fi
 
