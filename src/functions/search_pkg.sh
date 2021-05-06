@@ -1,24 +1,36 @@
 search_pkg() {
 
-	PKG=$(echo "${PKG}" | sed 's/ //')
+	search_query=$(echo "${PKG}" | sed 's/ //')
 
-	echo "Searching for '${PKG}'..."
+	aur_search_url="${aur_url}rpc.php/rpc/?v=5&type=search&arg=${search_query}"
+	aur_search_results=$(curl -s "${aur_search_url}" | jq)
+	arch_repository_search_results=$(curl -s "${arch_repository_search_url}${search_query}")
 
-	URL="${aur_url}rpc.php/rpc/?v=5&type=search&arg=${PKG}"
-	RESULTS=$(curl -s "${URL}" | jq)
-
-	if [[ $(echo ${RESULTS} | jq -r '.resultcount') == "0" ]]; then
+	if [[ $(echo ${aur_search_results} | jq -r '.resultcount') == "0" ]] && \
+	   [[ $(echo ${arch_repository_search_results} | \
+		      grep pkgname | \
+					sed 's|"||g' | \
+					sed 's|pkgname: ||g' | \
+					sed 's|,||g' | \
+					sed 's| ||g' | \
+					wc -w) == "0" ]]; then
 		echo "No results"
 		exit 0
-	elif [[ $(echo ${RESULTS} | jq -r '.resultcount') > "50" ]]; then
+	elif [[ $(( $(echo ${aur_search_results} | jq -r '.resultcount') + \
+							$(echo ${arch_repository_search_results} | \
+							   grep pkgname | \
+								 sed 's|"||g' | \
+								 sed 's|pkgname: ||g' | \
+								 sed 's|,||g' | \
+								 sed 's| ||g' | \
+								 wc -w) )) > "50" ]]; then
 		echo "Large amount of results detected. This might take a bit..."
 	fi
 
-	PKGNUM="1"
 	if [[ ${LIST_PER_PACKAGE} == "FALSE" ]]; then
-		echo "$(print_results)"
+		echo "$(get_results)"
 	else
-		print_results
+		get_results
 	fi
 
 }
