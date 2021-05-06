@@ -25,10 +25,8 @@ check_packages() {
       echo "Couldn't find package(s) ${FIND_NULL}"
       exit 1
     fi
-
   done
 
+  aur_packages=$(echo ${aur_packages} | xargs)
+  arch_repository_packages=$(echo ${arch_repository_packages} | xargs)
 }
-
-aur_packages=$(echo ${aur_packages} | xargs)
-arch_repository_packages=$(echo ${arch_repository_packages} | xargs)
