@@ -1,8 +1,9 @@
 clone_pkg() {
+  # Make sure folder is created and writable
   if [[ "${OUTPUT_FOLDER}" != "" ]]; then
     if ! [[ -d "${OUTPUT_FOLDER}" ]]; then
-      echo "Couldn't find folder"
-      exit 1
+      echo "Creating folder"
+      mkdir "${OUTPUT_FOLDER}"
 
     elif ! [[ -w "${OUTPUT_FOLDER}" ]]; then
       echo "Folder isn't writable"
@@ -12,22 +13,38 @@ clone_pkg() {
     cd "${OUTPUT_FOLDER}"
   fi
 
-  for pkg in ${PKG}; do
-    URL_SEARCH="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${pkg}"
-    result_count="$(curl -s ${URL_SEARCH} | jq .resultcount)"
+  check_packages
 
-    if [[ "${result_count}" == "0" ]]; then
-      bad_pkg+=" ${pkg}"
-    fi
+  for i in ${aur_packages}; do
+    echo "Cloning ${i}..."
+    git clone "${aur_url}${i}.git"
   done
 
-  if [[ "${bad_pkg}" != "" ]]; then
-    echo "Couldn't find $(echo ${bad_pkg} | xargs | sed "s/ /, /g")"
-    exit 1
-  fi
+  for i in ${arch_repository_packages}; do
+    echo "Cloning ${i}"...
+    local arch_repository_package_info=$(curl -s ${arch_repository_search_url}${i})
+    local arch_repository_package_repo=$(echo ${arch_repository_package_info} | jq -r .results[].repo)
+    local arch_repository_package_epoch=$(echo ${arch_repository_package_info} | jq -r .results[].epoch)
+    local arch_repository_package_pkgver=$(echo ${arch_repository_package_info} | jq -r .results[].pkgver)
+    local arch_repository_package_pkgrel=$(echo ${arch_repository_package_info} | jq -r .results[].pkgrel)
+    local arch_repository_package_arch=$(echo ${arch_repository_package_info} | jq -r .results[].arch)
 
-  for pkg in ${PKG}; do
-    echo "Cloning ${pkg}..."
-    git clone "${aur_url}${pkg}.git"
+
+    # Check epoch for curl command below
+    if [[ ${arch_repository_package_epoch} -gt "1" ]]; then
+      arch_repository_package_epoch_status="${arch_repository_package_epoch}:"
+    fi
+
+    local package_archive_name="${i}"-"${arch_repository_package_epoch_status}""${arch_repository_package_pkgver}"-"${arch_repository_package_pkgrel}-${arch_repository_package_arch}"
+    local pkgname_first_letter=$(echo ${i} | head -c 1)
+    mkdir ${i}
+    curl -s "${arch_archive_url}"packages/"${pkgname_first_letter}"/"${i}"/${package_archive_name}.pkg.tar.zst \
+         -o "${i}"/"${package_archive_name}".pkg.tar.zst
+
+    if [[ "${arch_repository_package_repo}" == "community" ]]; then
+      curl -s "${arch_github_url}"/svntogit-community/blob/master/"${i}"/trunk/PKGBUILD -o "${i}"/PKGBUILD
+    elif [[ "${arch_repository_package_repo}" == "extra" ]]; then
+      curl -sL "${arch_github_url}"/svntogit-packages/raw/master/"${i}"/trunk/PKGBUILD -o "${i}"/PKGBUILD
+    fi
   done
 }
