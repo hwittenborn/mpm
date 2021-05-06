@@ -4,9 +4,9 @@ help() {
 	echo
 	echo "Commands"
 	echo "  search - search for a package"
-	echo "  clone - clone packages from the AUR"
-	echo "  install - install packages from the AUR"
-	echo "  update - update installed AUR packages"
+	echo "  clone - clone packages"
+	echo "  install - install packages"
+	echo "  update - update installed packages"
 	echo
 	echo "Options:"
 	echo "  --help - bring up this help menu"
