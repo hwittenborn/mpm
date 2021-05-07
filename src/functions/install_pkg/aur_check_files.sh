@@ -13,11 +13,16 @@ aur_check_files() {
     while [[ ${check_files} == "yes" ]] || [[ ${check_files} == "y" ]]; do
       nano "${i}"/PKGBUILD
       source "${i}"/PKGBUILD
-      for notlink in ${source[@]}; do
-        echo "${notlink}" | grep "http" &> /dev/null
-        if [[ ${?} != "0" ]]; then
-          nano "${i}"/"${notlink}"
+
+      num="0"
+      while [[ $(eval echo \${source[${num}]}) != "" ]]; do
+        if eval echo \${source[${num}]} | grep "http" &> /dev/null; then
+          num=$(( ${num} + 1 ))
+          continue
         fi
+
+        nano "${i}"/$(eval echo \${source[${num}]} | sed 's|[^ ]*/||')
+        num=$(( ${num} + 1 ))
       done
       sleep 1
 
