@@ -12,7 +12,7 @@ if [[ "${release_type}" == "stable" ]]; then
   export pkgname="mpm"
 elif [[ "${release_type}" == "alpha" ]]; then
   export pkgname="mpm-alpha"
-  sed -i "s/depends=.*/depends=('makedeb-alpha' 'jq')/" src/PKGBUILD
+  sed -i "s/depends=.*/depends=('makedeb-alpha' 'jq' 'asp')/" src/PKGBUILD
   sed -i "s/conflicts=.*/conflicts=('mpm')/" src/PKGBUILD
 fi
 

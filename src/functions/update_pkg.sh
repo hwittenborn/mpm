@@ -1,8 +1,15 @@
   update_pkg() {
   	root_check
-  	REPO_FILES=$(ls "${REPO_DIR}/debs")
-
+    echo "Checking for updates..."
+    get_root
+    
+    remove_packages
     check_versions
+
+    if [[ ${to_update} == "" ]]; then
+      echo "No updates available"
+      exit 0
+    fi
 
   	echo "The following packages are going to be updated:"
   	echo "${to_update[@]}"
@@ -26,8 +33,7 @@
   	  exit 0
   	fi
 
-  	echo "Updating AUR packages..."
-  	ROOT_CONFIRM="FALSE"
+  	echo "Updating packages..."
   	PKG=${to_update}
 
   	install_pkg

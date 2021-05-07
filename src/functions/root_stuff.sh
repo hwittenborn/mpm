@@ -4,3 +4,7 @@ root_check() {
     exit 1
   fi
 }
+
+get_root() {
+  sudo printf "" || { echo "Couldn't obtain root privileges"; exit 1; }
+}

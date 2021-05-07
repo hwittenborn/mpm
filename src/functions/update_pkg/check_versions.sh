@@ -1,29 +1,36 @@
 check_versions() {
+  local sources_db_content=$(cat /etc/mpm/sources.db)
+  local number="1"
+  for i in $(echo "${sources_db_content}" | awk -F '\' '{print $1}'); do
+    if [[ $(echo "${sources_db_content}" | awk -F '\' '{print $3}' | awk NR==${number}) == "aur" ]]; then
+      local pkg_local_version=$(echo "${sources_db_content}" | awk -F '\' '{print $2}' | awk NR==${number})
+      local pkg_aur_version=$(curl -s "${aur_url}rpc.php/rpc/?v=5&type=info&arg=${i}" | jq .results[].Version)
 
-  for file in ${REPO_FILES[@]}; do
-    filename=$(echo ${file} | awk -F"_" '{print $1}')
-    CHECK_URL="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${filename}"
+      local pkg_highest_version=$(echo ${pkg_local_version} ${pkg_aur_version} | sort -V | awk '{print $2}')
 
-    filever=$(echo ${file} | awk -F"_" '{print $2}')
-    aurver=$(curl -s "${CHECK_URL}" | jq -r '.results[].Version')
+      if [[ "${pkg_highest_version}" != "${pkg_local_version}" ]]; then
+        to_update+=" ${i}"
+      fi
 
-    higher_ver=$(echo ${filever} ${aurver} | sed 's/ /\n/g' | sort -V | xargs | awk '{print $2}')
+    elif [[ $(echo "${sources_db_content}" | awk -F '\' '{print $3}' | awk NR==${number}) == "arch_repository" ]]; then
+      local pkg_local_version=$(echo "${sources_db_content}" | awk -F '\' '{print $2}' | awk NR==${number})
+      local pkg_arch_repository_results=$(curl -s "${arch_repository_search_url}${i}")
+        local pkg_arch_repository_epoch=$(echo ${pkg_arch_repository_results} | jq .results[].epoch)
+        local pkg_arch_repository_epoch=$(echo ${pkg_arch_repository_results} | jq .results[].pkgver)
+        local pkg_arch_repository_epoch=$(echo ${pkg_arch_repository_results} | jq .results[].pkgrel)
+        if [[ "${epoch}" -gt "1" ]]; then
+          pkg_arch_repository_epoch_status="${epoch}:"
+        fi
+        pkg_arch_repository_version="${pkg_arch_repository_epoch_status}${pkgver}-${pkgrel}"
 
-    apt list ${filename} 2> /dev/null | grep "\[installed" &> /dev/null
-    if [[ ${?} != "0" ]]; then
-      sudo rm /etc/mpm/repo/debs/${filename}*.deb
-      continue
+        local pkg_highest_version=$(echo ${pkg_local_version} ${pkg_arch_repository_version} | sort -V | awk '{print $2}')
+
+        if [[ "${pkg_highest_version}" != "${pkg_local_version}" ]]; then
+          to_update+=" ${i}"
+        fi
     fi
 
-    if [[ "${higher_ver}" != "${filever}" ]]; then
-      to_update+=" ${filename}"
-    fi
+    number=$(( ${number} + 1 ))
   done
-  to_update=$(echo "${to_update[@]}" | sed 's/ /\n/g')
-
-  if [[ "${to_update}" == "" ]]; then
-    echo "No updates available"
-    exit 0
-  fi
-
+  to_update=$(echo ${to_update} | xargs)
 }

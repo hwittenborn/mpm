@@ -1,5 +1,4 @@
-check_packages() {
-
+check_build_sources() {
   for i in ${PKG}; do
     aur_search_url="${aur_url}rpc.php/rpc/?v=5&type=info&arg=${i}"
 
