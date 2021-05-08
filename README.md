@@ -30,6 +30,8 @@ As expected, don't run the alpha release if you're expecting stability. Things c
 ## Usage ##
 Instructions can be found after installation with `mpm --help`
 
+Documentation on the inner working of mpm, as well as guides to contributing, are available in the [mpm wiki](https://github.com/hwittenborn/mpm/wiki).
+
 ## Other Notes ##
 mpm will only update packages itself has installed. Likewise, if there's any AUR packages you've installed with makedeb that you'd like to to update with mpm, uninstall them and then reinstall them with mpm.
 
