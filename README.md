@@ -5,7 +5,7 @@
 </div>
 
 ## Overview ##
-mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation and updates of packages from the AUR and Arch Linux repositories(*).
+mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation, updating, and cloning of packages from the AUR and Arch Linux repositories(*).
 
 \* Arch repository support is currently available in the alpha release only.
 
