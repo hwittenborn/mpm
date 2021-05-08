@@ -5,7 +5,9 @@
 </div>
 
 ## Overview ##
-mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation and updates of packages from the AUR
+mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation and updates of packages from the AUR and Arch Linux repositories(*).
+
+\* Arch repository support is currently available in the alpha release only.
 
 ## Installation ##
 First, set up the repository with the following commands:
@@ -33,7 +35,7 @@ Instructions can be found after installation with `mpm --help`
 Documentation on the inner working of mpm, as well as guides to contributing, are available in the [mpm wiki](https://github.com/hwittenborn/mpm/wiki).
 
 ## Other Notes ##
-mpm will only update packages itself has installed. Likewise, if there's any AUR packages you've installed with makedeb that you'd like to to update with mpm, uninstall them and then reinstall them with mpm.
+mpm will only update packages itself has installed. Likewise, if there's any packages you've installed with makedeb that you'd like to update with mpm, uninstall and reinstall them with mpm.
 
 ## Get in touch ##
 A Matrix room is available at [#git:hunterwittenborn.com](https://matrix.to/#/#git:hunterwittenborn.com) for discussion of any of my projects. Feel free to hop in if you need any help.
