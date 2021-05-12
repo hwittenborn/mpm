@@ -6,7 +6,7 @@ aur_check_files() {
 
     while [[ ${check_files} != "yes" ]] && [[ ${check_files} != "y" ]] && [[ ${check_files} != "no" ]] && [[ ${check_files} != "n" ]]; do
       echo "Invalid option provided"
-      echo " Enter yes(y) or no(n)"
+      printf " Enter yes(y) or no(n): "
       read -p check_files
     done
 
@@ -27,12 +27,12 @@ aur_check_files() {
       sleep 1
 
       echo "Look over files for '${i}'?"
-      echo "Enter yes(y) or no(n)"
+      printf "Enter yes(y) or no(n): "
       read check_files
 
       while [[ ${check_files} != "yes" ]] && [[ ${check_files} != "y" ]] && [[ ${check_files} != "no" ]] && [[ ${check_files} != "n" ]]; do
         echo "Invalid option provided"
-        echo " Enter yes(y) or no(n)"
+        printf "Enter yes(y) or no(n): "
         read check_files
       done
     done
