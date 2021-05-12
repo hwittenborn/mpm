@@ -2,14 +2,14 @@ clone_build_files() {
   if [[ ${aur_packages} != "" ]]; then
     for i in ${aur_packages}; do
       echo "Cloning ${i} from the AUR..."
-      git clone "${aur_url}${i}.git"
+      git clone "${aur_url}${i}.git" &> /dev/null
     done
   fi
-  
+
   if [[ ${arch_repository_packages} != "" ]]; then
     for i in ${arch_repository_packages}; do
       # Clone PKGBUILD with asp
-      echo "Cloning PKGBUILD for ${i}..."
+      echo "Cloning ${i} from Arch Linux repositories..."
       asp checkout "${i}" &> /dev/null
       mv "${i}"/trunk/PKGBUILD "${i}"/
       rm "${i}"/{repos,trunk} -rf
