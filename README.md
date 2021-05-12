@@ -32,6 +32,8 @@ As expected, don't run the alpha release if you're expecting stability. Things c
 ## Usage ##
 Instructions can be found after installation with `mpm --help`
 
+A list of known working packages is available in [WORKING_PACKAGES.md](./WORKING_PACKAGES.md)
+
 Documentation on the inner working of mpm, as well as guides to contributing, are available in the [mpm wiki](https://github.com/hwittenborn/mpm/wiki).
 
 ## Other Notes ##
