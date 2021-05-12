@@ -3,7 +3,7 @@
 
 pkgname="${pkgname}"
 pkgver=2.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Package manager for makedeb (${release_type} release)"
 depends=('makedeb' 'jq' 'asp')
 conflicts=('mpm-alpha')
