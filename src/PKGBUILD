@@ -2,10 +2,10 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname="${pkgname}"
-pkgver=2.0.2
-pkgrel=3
+pkgver=2.0.3
+pkgrel=1
 pkgdesc="Package manager for makedeb (${release_type} release)"
-depends=('makedeb' 'jq' 'asp')
+depends=('makedeb' 'makedeb-db' 'jq' 'asp')
 conflicts=('mpm-alpha')
 arch=('any')
 license=('GPL3')
