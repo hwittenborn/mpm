@@ -1,9 +1,10 @@
   update_pkg() {
   	root_check
-    echo "Checking for updates..."
     get_root
-    
+
     remove_packages
+    
+    echo "Checking for updates..."
     check_versions
 
     if [[ ${to_update} == "" ]]; then
