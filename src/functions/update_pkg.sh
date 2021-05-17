@@ -2,8 +2,9 @@
   	root_check
     get_root
 
+    clean_sources_db
     remove_packages
-    
+
     echo "Checking for updates..."
     check_versions
 
@@ -17,7 +18,6 @@
   	echo
   	echo "Continue?"
   	printf "Enter yes(y) or no(n): "
-  	echo
   	read continue_status
 
   	while [[ "${continue_status}" != "yes" ]] && \
@@ -26,7 +26,7 @@
   		 [[ "${continue_status}" != "n" ]]; do
   			 echo
   	  echo "Invalid option"
-  		echo "Enter yes(y) or no(n): "
+  		printf "Enter yes(y) or no(n): "
   		read continue_status
   	done
     if [[ "${continue_status}" == "no" ]] || \
