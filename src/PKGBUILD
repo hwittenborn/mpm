@@ -1,9 +1,11 @@
+# This PKGBUILD was designed to work with makedeb
+#
 # Author: Hunter Wittenborn <hunter@hunterwittenborn.com>
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname="${pkgname}"
 pkgver=2.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Package manager for makedeb (${release_type} release)"
 depends=('makedeb' 'makedeb-db' 'jq' 'asp')
 conflicts=('mpm-alpha')
@@ -25,7 +27,7 @@ prepare() {
 }
 
 package() {
-  # Copy makedeb files
+  # Copy mpm files
   mkdir -p "${pkgdir}/usr/bin/"
   cp "${srcdir}/mpm.sh" "${pkgdir}/usr/bin/mpm"
   chmod +x "${pkgdir}/usr/bin/mpm"
@@ -35,6 +37,4 @@ package() {
 
   # SET UP APT REPO
   mkdir -p "${pkgdir}/${REPO_DIR}/debs"
-  mkdir -p "${pkgdir}/etc/apt/sources.list.d"
-  echo "deb [trusted=yes] file://${REPO_DIR} /" | tee "${pkgdir}/etc/apt/sources.list.d/mpm.list"
 }
