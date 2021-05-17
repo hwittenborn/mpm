@@ -2,11 +2,14 @@
   	root_check
     get_root
 
-    clean_sources_db
-    remove_packages
+    if cat /etc/mpm/sources.db &> /dev/null; then
+      clean_sources_db
+      remove_packages
 
-    echo "Checking for updates..."
-    check_versions
+      echo "Checking for updates..."
+      check_versions
+    fi
+
 
     if [[ ${to_update} == "" ]]; then
       echo "No updates available"
