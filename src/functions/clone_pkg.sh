@@ -16,7 +16,7 @@ clone_pkg() {
   check_build_sources
   clone_build_files
 
-  if [[ ${aur_repository_packages} != "" ]]; then
+  if [[ ${arch_repository_packages} != "" ]]; then
     echo "The following packages were installed from the Arch Linux archive,
     and will require the '--prebuilt' flag when building with
     makedeb: ${arch_repository_packages}"
