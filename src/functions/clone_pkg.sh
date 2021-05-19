@@ -17,8 +17,7 @@ clone_pkg() {
   clone_build_files
 
   if [[ ${arch_repository_packages} != "" ]]; then
-    echo "The following packages were installed from the Arch Linux archive,
-    and will require the '--prebuilt' flag when building with
-    makedeb: ${arch_repository_packages}"
+    echo "The following packages were cloned from the Arch Linux repositories, and will"
+    echo "require the '--prebuilt' flag when building with makedeb: ${arch_repository_packages}"
   fi
 }
