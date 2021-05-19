@@ -8,7 +8,7 @@ check_versions() {
 
       local pkg_highest_version=$(echo ${pkg_local_version} ${pkg_aur_version} | sort -V | awk '{print $2}')
 
-      if [[ "${pkg_highest_version}" != "${pkg_local_version}" ]]; then
+      if [[ ${pkg_highest_version} != ${pkg_local_version} ]]; then
         to_update+=" ${i}"
       fi
 
@@ -25,7 +25,7 @@ check_versions() {
 
         local pkg_highest_version=$(echo ${pkg_local_version} ${pkg_arch_repository_version} | sort -V | awk '{print $2}')
 
-        if [[ "${pkg_highest_version}" != "${pkg_local_version}" ]]; then
+        if [[ ${pkg_highest_version} != ${pkg_local_version} ]]; then
           to_update+=" ${i}"
         fi
     fi
