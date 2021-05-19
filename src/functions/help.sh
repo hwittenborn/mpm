@@ -10,7 +10,14 @@ help() {
 	echo
 	echo "Options:"
 	echo "  --help - bring up this help menu"
-	echo "  -L, --list-pkg - list each package as it's rendered; for use with 'search'"
+	echo
+	echo "  (search)"
+	echo "  -L, --list-pkg - list each package as it's rendered"
+	echo
+	echo "  (install)"
+	echo "  -N, --skip-pkgbuild-check - Skip PKGBUILD checks for AUR packages"
+	echo
+	echo "  (clone)"
 	echo "  -O, --output-folder - specify a folder to clone files to; for use with 'clone'"
 	echo
 	echo "Report bugs at https://github.com/hwittenborn/mpm"

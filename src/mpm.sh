@@ -14,9 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Options
-LIST_PER_PACKAGE="FALSE"
-
 # URLs needed to function
 aur_url="https://aur.archlinux.org/"
 arch_repository_search_url="https://archlinux.org/packages/search/json/?name="
