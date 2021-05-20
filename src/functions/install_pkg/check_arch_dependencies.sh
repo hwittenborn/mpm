@@ -19,7 +19,7 @@ check_arch_dependencies() {
         add_arch_dependency_list+=" ${arch_dependency_results}"
       fi
 
-      if [[ $(echo ${add_arch_dependency_cache} | xargs) != $(echo add_arch_dependency_list | xargs) ]]; then
+      if [[ $(echo ${add_arch_dependency_cache} | xargs) != $(echo ${add_arch_dependency_list} | xargs) ]]; then
         add_arch_dependency_cache=${add_arch_dependency_list}
       else
         continue
