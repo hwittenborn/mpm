@@ -7,12 +7,19 @@ clone_build_files() {
   fi
 
   if [[ ${arch_repository_packages} != "" ]]; then
-    for i in ${arch_repository_packages}; do
+    for i in ${arch_repository_packages} ${arch_dependency_list}; do
       # Clone PKGBUILD with asp
       echo "Cloning ${i} from Arch Linux repositories..."
-      asp checkout "${i}" &> /dev/null
-      mv "${i}"/trunk/PKGBUILD "${i}"/
-      rm "${i}"/{repos,trunk} -rf
+      local asp_output=$(asp checkout "${i}" &> /dev/stdout | grep "${i} is part of package" | sed "s|==> ${i} is part of package ||")
+
+      if [[ "${asp_output}" != "" ]]; then
+        mv "${asp_output}"/trunk/PKGBUILD "${asp_output}"/
+        rm "${asp_output}"/{repos,trunk} -rf
+        mv "${asp_output}" "${i}"
+      else
+        mv "${i}"/trunk/PKGBUILD "${i}"/
+        rm "${i}"/{repos,trunk} -rf
+      fi
 
       # Clone package from Arch Linux archive
       echo "Cloning binary for ${i}..."
