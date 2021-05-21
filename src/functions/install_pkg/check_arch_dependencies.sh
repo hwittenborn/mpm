@@ -3,7 +3,7 @@ check_arch_dependencies() {
     local arch_dependency_results=$(makedeb-db --package ${i} | jq -r .arch_packages | grep -vw "null")
 
     if [[ ${arch_dependency_results} == "" ]]; then
-      break
+      export arch_dependency_empty="true"
     fi
 
     if ! { echo "${PKG}" | grep "${arch_dependency_results}" &> /dev/null; }; then
@@ -13,7 +13,7 @@ check_arch_dependencies() {
 
   # Keep looping until cache is equal to packages added on run;
   # used for recursive dependencies.
-  while true; do
+  [[ "${arch_dependency_empty}" != "true" ]] && while true; do
     local grep_string=$(echo "${add_arch_dependency_cache}" | sed 's/ /|/g')
     for i in ${add_arch_dependency_list}; do
       local arch_dependency_results=$(makedeb-db --package ${i} | jq -r .arch_packages | grep -vw "null")
