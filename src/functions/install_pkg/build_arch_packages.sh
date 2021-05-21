@@ -4,7 +4,7 @@ build_arch_packages() {
     source PKGBUILD
 
     echo
-    makedeb --convert --prebuilt
+    makedeb --convert --prebuilt --pkgname "${i}"
 
     sudo rm /etc/mpm/repo/debs/"${i}"*.deb &> /dev/null || printf ""
     sudo cp "${i}"_"$(version_gen)"_*.deb /etc/mpm/repo/debs/
