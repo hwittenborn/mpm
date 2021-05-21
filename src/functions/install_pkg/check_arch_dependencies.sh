@@ -2,6 +2,10 @@ check_arch_dependencies() {
   for i in ${PKG}; do
     local arch_dependency_results=$(makedeb-db --package ${i} | jq -r .arch_packages | grep -vw "null")
 
+    if [[ ${arch_dependency_results} == "" ]]; then
+      break
+    fi
+
     if ! { echo "${PKG}" | grep "${arch_dependency_results}" &> /dev/null; }; then
       add_arch_dependency_list+=" ${arch_dependency_results}"
     fi
