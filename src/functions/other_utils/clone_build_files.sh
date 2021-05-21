@@ -7,6 +7,7 @@ clone_build_files() {
   fi
 
   if [[ ${arch_repository_packages} != "" ]]; then
+    asp update &> /dev/null
     for i in ${arch_repository_packages} ${arch_dependency_list}; do
       # Clone PKGBUILD with asp
       echo "Cloning ${i} from Arch Linux repositories..."
