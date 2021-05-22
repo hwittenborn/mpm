@@ -33,7 +33,7 @@ clone_build_files() {
 
 
       # Check epoch for curl command below
-      if [[ ${arch_repository_package_epoch} != "" ]]; then
+      if [[ ${arch_repository_package_epoch} != "0" ]]; then
         arch_repository_package_epoch_status="${arch_repository_package_epoch}:"
       fi
 
