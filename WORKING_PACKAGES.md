@@ -10,9 +10,8 @@ If a package you use isn't listed and you'd like to know if it works - see if it
 ---
 
 ## A
-asp (asp)
+asp (asp)\
 Arc GTK Theme (arc-gtk-theme-git)
-
 ## G
 Google Chrome (google-chrome)
 
