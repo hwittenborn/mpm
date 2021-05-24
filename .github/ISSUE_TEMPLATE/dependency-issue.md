@@ -1,7 +1,7 @@
 ---
 name: Dependency Issue
 about: Issues with dependencies
-title: "[DEPENDENCY]"
+title: "[Dependency Issue]"
 labels: dependency issue
 assignees: ''
 

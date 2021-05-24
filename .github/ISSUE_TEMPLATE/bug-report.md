@@ -1,7 +1,7 @@
 ---
 name: Bug Report
-about: "*see title*"
-title: "[BUG]"
+about: All the buggy bug reports
+title: "[Bug]"
 labels: bug
 assignees: ''
 
