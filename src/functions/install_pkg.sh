@@ -13,14 +13,14 @@ install_pkg() {
 	[[ "${apt_uptodate_message}" != "" ]] && printf "${apt_uptodate_message}"
 	[[ "${aur_packages}" == "" ]] && [[ "${arch_repository_packages}" == "" ]] && exit 2
 
-	if [[ "${aur_depends}" != "" ]] || [[ "${arch_depends}" != "" ]]; then
+	if [[ "${aur_packages}" != "" ]] || [[ "${arch_packages}" != "" ]]; then
 		echo "The following additional packages are going to be installed:"
-		echo "  $(echo ${aur_depends} ${arch_depends} | xargs)"
+		echo "  $(echo ${aur_packages} ${arch_packages} | xargs)"
 		echo
 	fi
 
 	echo "The following packages are going to be installed:"
-	echo "  ${aur_packages} ${arch_packages} ${aur_depends} ${arch_depends}"
+	echo "  ${aur_packages} ${arch_packages} ${aur_packages} ${arch_packages}"
 	echo
 	read -p "Continue (Y/n)?" continue_status
 
