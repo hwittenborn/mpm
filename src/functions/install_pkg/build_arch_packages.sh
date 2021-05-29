@@ -4,14 +4,12 @@ build_arch_packages() {
     source PKGBUILD
 
     echo
-    makedeb --convert --prebuilt --pkgname "${i}"
+    makedeb --convert --pkgname "${i}"
 
     sudo rm /etc/mpm/repo/debs/"${i}"*.deb &> /dev/null || printf ""
     sudo cp "${i}"_"$(version_gen)"_*.deb /etc/mpm/repo/debs/
 
-    # Using quadruple backslashes(\) as echo and sed(in below 'if' statement) will
-    # both divide the total by two (resulting in one, which is the desired ouput)
-    local export_to_database=$(echo "${i}"\\\\"$(version_gen)"\\\\"arch_repository")
+    local export_to_database=$(echo "${i}"\\"$(version_gen)"\\"arch_repository")
 
     if cat /etc/mpm/sources.db | awk -F '\' '{print $1}' | grep "${i}" &> /dev/null; then
       sudo sed -i "s|${i}\\.*|${export_to_database}|" /etc/mpm/sources.db

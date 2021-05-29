@@ -1,4 +1,7 @@
 clone_pkg() {
+  # Set variable so clone_build_files() knows were running the clone command.
+  # Otherwise, it would skip cloning on any packages that are up to date on the local machine.
+  export clone_cmd="true"
   # Make sure folder is created and writable
   if [[ "${OUTPUT_FOLDER}" != "" ]]; then
     if ! [[ -d "${OUTPUT_FOLDER}" ]]; then
