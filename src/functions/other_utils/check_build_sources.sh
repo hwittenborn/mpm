@@ -38,7 +38,7 @@ check_build_sources() {
       if [[ "${arch_repository_search_results_pkgver}"  !=  $(apt list "${i}" 2> /dev/null | grep -E "$(dpkg --print-architecture)|all" | grep '\[installed,' |awk -F ' ' '{print $2}') ]]; then
         export arch_repository_packages+=" ${i}"
       else
-        export apt_uptodate_message+="${i} is already up to date (${arch_repository_search_results_pkgver})"
+        export apt_uptodate_message+="${i} is already up to date (${arch_repository_search_results_pkgver})\n"
         # Save to separate variable for clone_pkg(), as it needs to clone even if up to date
         export arch_clone_packages=" ${i}"
       fi
