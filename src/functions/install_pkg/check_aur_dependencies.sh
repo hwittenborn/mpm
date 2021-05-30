@@ -5,13 +5,15 @@ check_aur_dependencies() {
     export aur_ring_num="0"
     export aur_ring_${aur_ring_num}="${PKG}"
 
+    # Read packages from package database
+    export db_packages=$(cat /etc/mpm/sources.db)
+
+
     # Keep looping until 'aur_ring_${aur_ring_num}' is empty
-    while [[ $(eval echo \${aur_ring_${aur_ring_num}}) != "" ]]; do
+    while [[ "$(eval echo \${aur_ring_${aur_ring_num}})" != "" ]]; do
 
         # Add 1 to ring number - needed by some commands to add packages to next ring
         export temp_aur_ring_num=$(( "${aur_ring_num}" + 1 ))
-
-        export db_packages=$(cat /etc/mpm/sources.db)
 
         # Check each package specified in 'aur_ring_${aur_ring_num}'
         for i in $(eval echo \${aur_ring_${aur_ring_num}}); do
@@ -23,7 +25,10 @@ check_aur_dependencies() {
 
                 # TODO: This will cause issue if there's two packages that end the same way in the database (i.e. 'cheese' was specified, and both 'cheese' and 'burgcheese' exist)
                 if ! echo ${db_packages} | grep "${j}\\" &> /dev/null; then
-                    export aur_ring_${temp_aur_ring_num}+="${i}"
+                    export aur_ring_${temp_aur_ring_num}+=" ${j}"
+
+                    # Add to global dependency list; used for "extra packages" in install_pkg()
+                    export aur_dependency_packages+=" ${j}"
                 fi
             done
         done

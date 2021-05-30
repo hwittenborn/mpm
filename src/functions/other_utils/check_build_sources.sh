@@ -25,7 +25,7 @@ check_build_sources() {
       # Get AUR package version
       local aur_search_results_pkgver=$(echo "${aur_search_results}" | jq -r .results[].Version | awk NR=="${awk_pkgver}")
       # Print local version (if installed)
-      if [[  "${aur_search_results_pkgver}" !=  $(apt list "${i}" 2> /dev/null | grep -E "$(dpkg --print-architecture)|all" | grep '[installed,' | awk -F ' ' '{print $2}') ]]; then
+      if [[  "${aur_search_results_pkgver}" !=  $(apt list "${i}" 2> /dev/null | grep -E "$(dpkg --print-architecture)|all" | grep '\[installed,' | awk -F ' ' '{print $2}') ]]; then
         aur_packages+=" ${i}"
       else
         export apt_uptodate_message+="${i} is already up to date (${aur_search_results_pkgver})\n"
@@ -35,7 +35,7 @@ check_build_sources() {
 
     elif [[ $(echo ${arch_repository_search_results} | jq .results[].pkgname) != "null" ]]; then
       export arch_repository_search_results_pkgver=$(echo "${arch_repository_search_results}" | jq -r .results[].pkgver)
-      if [[ "${arch_repository_search_results_pkgver}"  !=  $(apt list "${i}" 2> /dev/null | grep -E "$(dpkg --print-architecture)|all" | grep '[installed,' |awk -F ' ' '{print $2}') ]]; then
+      if [[ "${arch_repository_search_results_pkgver}"  !=  $(apt list "${i}" 2> /dev/null | grep -E "$(dpkg --print-architecture)|all" | grep '\[installed,' |awk -F ' ' '{print $2}') ]]; then
         export arch_repository_packages+=" ${i}"
       else
         export apt_uptodate_message+="${i} is already up to date (${arch_repository_search_results_pkgver})"
