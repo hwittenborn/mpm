@@ -26,6 +26,10 @@ install_pkg() {
 
 	[[ "${continue_status:-Y}" != "Y" ]] && exit 1
 
+    # Prepare system for building
+    echo "Preparing..."
+    repository_config add
+
 	clone_build_files
 
 	[[ "${SKIP_PKGBUILD_CHECK}" == "TRUE" ]] || aur_check_files
@@ -39,4 +43,8 @@ install_pkg() {
 
 	echo "Installing packages..."
 	install_packages
+
+    # Post-build cleanup
+    echo "Cleaning up..."
+    repository_config remove
 }
