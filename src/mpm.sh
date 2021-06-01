@@ -33,6 +33,7 @@ set -e
 source <(cat "${FUNCTIONS_DIR}"/functions/*.sh)
 source <(cat "${FUNCTIONS_DIR}"/functions/*/*.sh)
 
+trap_codes
 arg_check ${@}
 case ${OP} in
 	search)        search_pkg ;;
