@@ -2,19 +2,19 @@
 
 build_arch_dependencies() {
     # Check for and build arch dependencies
-    if [[ "${arch_ring_num}" -gt "1" ]]; then
+    if [[ "${arch_ring_num}" -gt "0" ]]; then
 
         # Set current ring number
-        export arch_build_ring_num="1"
+        export arch_build_ring_num="${arch_ring_num}"
 
         # Build each ring's packages, and add them to the local repository
-        while [[ "${arch_build_ring_num}" -le "${arch_ring_num}" ]]; do
+        while [[ "${arch_build_ring_num}" -gt "0" ]]; do
 
             for j in $( eval echo \${arch_ring_${arch_build_ring_num}} ); do
                 build_package ${j} arch_dependency
             done
 
-            export arch_build_ring_num=$(( "${arch_build_ring_num}" + 1 ))
+            export arch_build_ring_num=$(( "${arch_build_ring_num}" - 1 ))
         done
     fi
 }
