@@ -27,7 +27,7 @@ search_pkg() {
 		echo "Large amount of results detected. This might take a bit..."
 	fi
 
-	if [[ ${LIST_PER_PACKAGE} == "FALSE" ]]; then
+	if [[ ${LIST_PER_PACKAGE} != "true" ]]; then
 		echo "$(get_results)"
 	else
 		get_results
