@@ -1,5 +1,3 @@
-# This file is copy-pasted from build_arch_dependencies.sh, with all instances of 'arch' replaces with 'arch'
-
 build_arch_dependencies() {
     # Check for and build arch dependencies
     if [[ "${arch_ring_num}" -gt "0" ]]; then
