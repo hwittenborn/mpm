@@ -4,7 +4,7 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname="${pkgname}"
-pkgver=2.3.8
+pkgver=2.4.0
 pkgrel=1
 pkgdesc="Package manager for makedeb (${release_type} release)"
 depends=('makedeb' 'makedeb-db' 'jq' 'asp')
@@ -24,6 +24,9 @@ prepare() {
   # Configure variables in mpm.sh
   sed -i "0,/FUNCTIONS_DIR.*/{s;FUNCTIONS_DIR.*;FUNCTIONS_DIR=$FUNCTIONS_DIR;}" mpm.sh
   sed -i "0,/REPO_DIR.*/{s;REPO_DIR.*;REPO_DIR=$REPO_DIR;}" mpm.sh
+
+  # Set version
+  sed -i "s|mpm_version=.*|mpm_version=${pkgver}|"
 }
 
 package() {
