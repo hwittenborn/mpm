@@ -2,6 +2,7 @@ arg_check() {
 	while true; do
 		case "${1}" in
 			--help | "")                   help ;;
+            -D | --dryrun)                 export arg_dryrun="true" ;;
 			-L | --list-pkg)               LIST_PER_PACKAGE="true" ;;
 			-O | --output-folder)          OUTPUT_FOLDER="${2}"; shift 1;;
 			-N | --skip-pkgbuild-check)    SKIP_PKGBUILD_CHECK="TRUE" ;;
@@ -19,6 +20,7 @@ arg_check() {
 	while true; do
 		case "${1}" in
 			--help)                        help ;;
+            -D | --dryrun)                 export arg_dryrun="true" ;;
 			-L | --list-pkg)               LIST_PER_PACKAGE="TRUE" ;;
 			-O | --output-folder)          OUTPUT_FOLDER="${2}"; shift 1;;
 			-N | --skip-pkgbuild-check)    SKIP_PKGBUILD_CHECK="TRUE" ;;

@@ -29,12 +29,13 @@ REPO_DIR="/etc/mpm/repo/"
 ##################
 ## BEGIN SCRIPT ##
 ##################
-set -e
 source <(cat "${FUNCTIONS_DIR}"/functions/*.sh)
 source <(cat "${FUNCTIONS_DIR}"/functions/*/*.sh)
+set -e
 
 trap_codes
 arg_check ${@}
+
 case ${OP} in
 	search)        search_pkg ;;
 	install)       install_pkg ;;

@@ -1,6 +1,6 @@
 install_pkg() {
 	root_check
-	get_root
+	[[ "${arg_dryrun}" != "true" ]] && get_root
 
 	PKG=$(echo "${PKG}" | xargs)
 
@@ -28,7 +28,7 @@ install_pkg() {
 
     # Prepare system for building
     echo "Preparing..."
-    repository_config add
+    [[ "${arg_dryrun}" != "true" ]] && repository_config add
 
 	clone_build_files
 
@@ -41,10 +41,12 @@ install_pkg() {
 	build_aur_packages
 	build_arch_packages
 
-	echo "Installing packages..."
-	install_packages
+	if [[ "${arg_dryrun}" != "true" ]]; then
+        echo "Installing packages..."
+        install_packages
+    fi
 
     # Post-build cleanup
     echo "Cleaning up..."
-    repository_config remove
+    [[ "${arg_dryrun}" != "true" ]] && repository_config remove
 }

@@ -16,9 +16,10 @@ help() {
 	echo
 	echo "  (install)"
 	echo "  -N, --skip-pkgbuild-check - Skip PKGBUILD checks for AUR packages"
+    echo "  -D, --dryrun - build packages, but don't install or register in database"
 	echo
 	echo "  (clone)"
-	echo "  -O, --output-folder - specify a folder to clone files to; for use with 'clone'"
+	echo "  -O, --output-folder - specify a folder to clone files to"
 	echo
 	echo "Report bugs at https://github.com/hwittenborn/mpm"
 	exit 0

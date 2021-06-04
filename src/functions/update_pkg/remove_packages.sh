@@ -7,7 +7,7 @@ remove_packages() {
     fi
 
     if ! [[ $(apt list ${i} 2> /dev/null | grep "\[installed") ]]; then
-      sed -i "s|${i}\\\\.*||" /etc/mpm/sources.db
+      sudo sed -i "s|${i}\\\\.*||" /etc/mpm/sources.db
     fi
   done
 
@@ -24,6 +24,6 @@ remove_packages() {
     for i in ${unneeded_packages}; do
       sudo rm -f /etc/mpm/repo/debs/"${i}"*
     done
-    
+
   fi
 }
