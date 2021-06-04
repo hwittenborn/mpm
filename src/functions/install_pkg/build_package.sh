@@ -2,7 +2,7 @@ build_package() {
     # Build package
     cd "${1}"
     source PKGBUILD
-    ( makedeb --convert --pkgname "${1}" ) | grep -v "Aborted by user. Exiting..."
+    ( makedeb --convert --pkgname ${makedeb_options} "${1}" ) | grep -v "Aborted by user. Exiting..."
     wait
 
     # Run if the dryrun argument wasn't passed
