@@ -13,7 +13,7 @@ arch=('any')
 license=('GPL3')
 url="https://github.com/hwittenborn/mpm"
 source=("mpm.sh" "mpm.desktop")
-sha256sums=("SKIP")
+sha256sums=("SKIP" "SKIP")
 
 prepare() {
   # Alter variables to use backticks as to work properly with sed section below.
