@@ -26,7 +26,7 @@ prepare() {
   sed -i "0,/REPO_DIR.*/{s;REPO_DIR.*;REPO_DIR=$REPO_DIR;}" mpm.sh
 
   # Set version
-  sed -i "s|mpm_version=.*|mpm_version=${pkgver}|"
+  sed -i "s|mpm_version=.*|mpm_version=${pkgver}|" mpm.sh
 }
 
 package() {
