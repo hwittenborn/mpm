@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=mpm
+Comment=Package manger for makedeb
+Icon=system-software-install
+Type=Application
+Categories=System;
+NoDisplay=true

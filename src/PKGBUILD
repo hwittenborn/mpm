@@ -12,7 +12,7 @@ conflicts=('mpm-alpha')
 arch=('any')
 license=('GPL3')
 url="https://github.com/hwittenborn/mpm"
-source=("mpm.sh")
+source=("mpm.sh" "mpm.desktop")
 sha256sums=("SKIP")
 
 prepare() {
@@ -35,9 +35,14 @@ package() {
   cp "${srcdir}/mpm.sh" "${pkgdir}/usr/bin/mpm"
   chmod +x "${pkgdir}/usr/bin/mpm"
 
+  # Copy functions
   mkdir -p "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
   cp -R "${srcdir}"/../functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions/"
 
+  # Copy .desktop file
+  mkdir -p "${pkgdir}/usr/share/applications/"
+  cp -R "${srcdir}/mpm.desktop" "${pkgdir}/usr/share/applications/"
+  
   # SET UP APT REPO
   mkdir -p "${pkgdir}/${REPO_DIR}/debs"
 }
