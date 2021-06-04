@@ -23,6 +23,7 @@ help() {
 	echo
     echo "The following options can be passed to makedeb:"
     echo "  --skippgpcheck - Do not verify source files against PGP signatures"
+    echo
 	echo "Report bugs at https://github.com/hwittenborn/mpm"
 	exit 0
 }
