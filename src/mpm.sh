@@ -40,6 +40,6 @@ arg_check ${@}
 case ${OP} in
 	search)        search_pkg ;;
 	install)       install_pkg ;;
-	update)        update_pkg ;;
+	upgrade)       update_pkg ;;
 	clone)         clone_pkg ;;
 esac

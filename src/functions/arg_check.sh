@@ -11,7 +11,7 @@ arg_check() {
 			search)                        OP="search"; shift 1; break ;;
 			clone)                         OP="clone"; shift 1; break ;;
 			install)                       OP="install"; shift 1; break ;;
-			update)                        OP="update"; PKG="TEMP"; shift 1; break ;;
+			update | upgrade)              OP="upgrade"; PKG="TEMP"; shift 1; break ;;
 			*)                             echo "Invalid option '${1}'..."; exit 1 ;;
 		esac
 		shift 1

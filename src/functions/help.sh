@@ -6,7 +6,7 @@ help() {
 	echo "  search - search for a package"
 	echo "  clone - clone packages"
 	echo "  install - install packages"
-	echo "  update - update installed packages"
+	echo "  update, upgrade - update installed packages"
 	echo
 	echo "Options:"
 	echo "  --help - bring up this help menu"

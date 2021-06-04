@@ -7,7 +7,8 @@ check_versions() {
     for i in $(echo "${sources_db_content}" | awk -F '\' '{print $1}'); do
 
         # Check if package is from AUR
-        if [[ $(echo "${sources_db_content}" | awk -F '\' '{print $3}' | awk NR==${number}) == "aur" ]]; then
+        export sources_db_package_source="$(echo "${sources_db_content}" | awk -F '\' '{print $3}' | awk NR==${number})"
+        if [[ "${sources_db_package_source}" == "aur" || "${sources_db_package_source}" == "aur_dependency" ]]; then
 
             # Check local version of package
             local pkg_local_version=$(echo "${sources_db_content}" | awk -F '\' '{print $2}' | awk NR==${number})
@@ -23,7 +24,7 @@ check_versions() {
             fi
 
         # Check if package is from the Arch Linux repositories
-        elif [[ $(echo "${sources_db_content}" | awk -F '\' '{print $3}' | awk NR==${number}) == "arch_repository" ]]; then
+    elif [[ "${sources_db_package_source}" == "arch_repository" || "${sources_db_package_source}" == "arch_dependency" ]]; then
 
             # Check local version of package
             local pkg_local_version=$(echo "${sources_db_content}" | awk -F '\' '{print $2}' | awk NR==${number})
