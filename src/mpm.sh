@@ -25,6 +25,7 @@ arch_github_url="https://github.com/archlinux"
 # shell's environment and run makedeb.
 FUNCTIONS_DIR="."
 REPO_DIR="/etc/mpm/repo/"
+mpm_version="git"
 
 ##################
 ## BEGIN SCRIPT ##

@@ -3,8 +3,8 @@ search_pkg() {
 	search_query=$(echo "${PKG}" | sed 's/ //')
 
 	aur_search_url="${aur_url}rpc.php/rpc/?v=5&type=search&arg=${search_query}"
-	aur_search_results=$(curl -s "${aur_search_url}" | jq)
-	arch_repository_search_results=$(curl -s "${arch_repository_search_url}${search_query}")
+	aur_search_results=$(curl -s -H "User-Agent: mpm/${mpm_version}" "${aur_search_url}" | jq)
+	arch_repository_search_results=$(curl -s -H "User-Agent: mpm/${mpm_version}" "${arch_repository_search_url}${search_query}")
 
 	if [[ $(echo ${aur_search_results} | jq -r '.resultcount') == "0" ]] && \
 	   [[ $(echo ${arch_repository_search_results} | \

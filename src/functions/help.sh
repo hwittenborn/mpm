@@ -1,5 +1,5 @@
 help() {
-	echo "mpm - makedeb package manager"
+	echo "mpm (${mpm_version}) - makedeb package manager"
 	echo "Usage: mpm [command] [options]"
 	echo
 	echo "Commands"

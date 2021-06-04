@@ -4,12 +4,12 @@ check_build_sources() {
     aur_search_args+="&arg[]=${i}"
   done
   aur_search_url="${aur_url}rpc.php/rpc/?v=5&type=info${aur_search_args}"
-  aur_search_results=$(curl -s "${aur_search_url}")
+  aur_search_results=$(curl -s -H "User-Agent: mpm/${mpm_version}" "${aur_search_url}")
 
 
   for i in ${PKG}; do
     # Get results from AUR and Arch Repositories
-    arch_repository_search_results=$(curl -s "${arch_repository_search_url}${i}")
+    arch_repository_search_results=$(curl -s -H "User-Agent: mpm/${mpm_version}" "${arch_repository_search_url}${i}")
 
     if [[ $(echo "${aur_search_results}" | jq -r '.results[].Name' | grep -x "${i}") != "" ]]; then
       # Figure out position of AUR package in results
