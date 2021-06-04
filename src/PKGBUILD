@@ -4,7 +4,7 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname="${pkgname}"
-pkgver=2.5.1
+pkgver=2.6.0
 pkgrel=1
 pkgdesc="Package manager for makedeb (${release_type} release)"
 depends=('makedeb' 'makedeb-db' 'jq' 'asp')
@@ -42,7 +42,7 @@ package() {
   # Copy .desktop file
   mkdir -p "${pkgdir}/usr/share/applications/"
   cp -R "${srcdir}/mpm.desktop" "${pkgdir}/usr/share/applications/"
-  
+
   # SET UP APT REPO
   mkdir -p "${pkgdir}/${REPO_DIR}/debs"
 }
