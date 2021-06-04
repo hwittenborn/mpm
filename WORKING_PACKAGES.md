@@ -12,6 +12,14 @@ If a package you use isn't listed and you'd like to know if it works - see if it
 ## A
 asp (asp)\
 Arc GTK Theme (arc-gtk-theme-git)
+
+## B
+Bitwarden Desktop (bitwarden-bin)\
+Bootstrap Studio (bootstrap-studio)
+
+## D
+Drone CLI (drone-cli-bin)
+
 ## G
 Google Chrome (google-chrome)
 
