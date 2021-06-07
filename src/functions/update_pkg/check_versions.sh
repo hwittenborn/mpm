@@ -16,15 +16,13 @@ check_versions() {
             # Check version of package in AUR
             local pkg_aur_version=$(curl -s "${aur_url}rpc.php/rpc/?v=5&type=info&arg=${i}" | jq .results[].Version)
 
-            # Check which version is highest
-            local pkg_highest_version=$(echo ${pkg_local_version} ${pkg_aur_version} | sort -V | awk '{print $2}')
-
-            if [[ ${pkg_highest_version} != ${pkg_local_version} ]]; then
+            # Tried doing this in an if statement, never got it to work 100% of the time. So now we do this (lucky subshells :c)
+            if ! printf "${pkg_local_version}\n${pkg_aur_version}" | sort -V | awk NR==2 | grep "${pkg_local_version}" &> /dev/null ; then
                 to_update+=" ${i}"
             fi
 
         # Check if package is from the Arch Linux repositories
-    elif [[ "${sources_db_package_source}" == "arch_repository" || "${sources_db_package_source}" == "arch_dependency" ]]; then
+        elif [[ "${sources_db_package_source}" == "arch_repository" || "${sources_db_package_source}" == "arch_dependency" ]]; then
 
             # Check local version of package
             local pkg_local_version=$(echo "${sources_db_content}" | awk -F '\' '{print $2}' | awk NR==${number})
@@ -45,10 +43,8 @@ check_versions() {
                 # Set Arch Linux repository version
                 pkg_arch_repository_version="${pkg_arch_repository_epoch_status}${pkgver}-${pkgrel}"
 
-            # Check which version is highest
-            local pkg_highest_version=$(echo ${pkg_local_version} ${pkg_arch_repository_version} | sort -V | awk '{print $2}')
-
-            if [[ ${pkg_highest_version} != ${pkg_local_version} ]]; then
+            # Tried doing this in an if statement, never got it to work 100% of the time. So now we do this (lucky subshells :c)
+            if ! printf "${pkg_local_version}\n${pkg_arch_repository_version}" | sort -V | awk NR==2 | grep "${pkg_local_version}" &> /dev/null ; then
                 to_update+=" ${i}"
             fi
         fi
