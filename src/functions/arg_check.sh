@@ -2,12 +2,12 @@ arg_check() {
 	while true; do
 		case "${1}" in
 			--help | "")                   help ;;
-            -D | --dryrun)                 export arg_dryrun="true" ;;
+			-D | --dryrun)                 export arg_dryrun="true" ;;
 			-L | --list-pkg)               LIST_PER_PACKAGE="true" ;;
 			-O | --output-folder)          OUTPUT_FOLDER="${2}"; shift 1;;
 			-N | --skip-pkgbuild-check)    SKIP_PKGBUILD_CHECK="TRUE" ;;
 
-            --skippgpcheck)                export makedeb_options+= " ${1}" ;;
+			--skippgpcheck)                export makedeb_options+= " ${1}" ;;
 			-*)                            echo "Unknown option '${1}'"; exit 1 ;;
 
 			search)                        OP="search"; shift 1; break ;;
@@ -22,12 +22,12 @@ arg_check() {
 	while true; do
 		case "${1}" in
 			--help)                        help ;;
-            -D | --dryrun)                 export arg_dryrun="true" ;;
+			-D | --dryrun)                 export arg_dryrun="true" ;;
 			-L | --list-pkg)               LIST_PER_PACKAGE="TRUE" ;;
 			-O | --output-folder)          OUTPUT_FOLDER="${2}"; shift 1;;
 			-N | --skip-pkgbuild-check)    SKIP_PKGBUILD_CHECK="TRUE" ;;
 
-            --skippgpcheck)                export makedeb_options+= " ${1}" ;;
+			--skippgpcheck)                export makedeb_options+= " ${1}" ;;
 			-*)                            echo "Invalid option '${1}'"; exit 1 ;;
 			"")                            break ;;
 			*)                             PKG+=" ${1}" ;;
