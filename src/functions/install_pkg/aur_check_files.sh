@@ -1,6 +1,6 @@
 aur_check_files() {
     for i in ${aur_packages}; do
-        read -p "Look over files for '${i}'? [Y/n]" check_files
+        read -p "Look over files for '${i}'? [Y/n] " check_files
 
         while [[ ${check_files,,} != "n" ]]; do
             nano "${i}"/PKGBUILD
@@ -20,7 +20,7 @@ aur_check_files() {
             done
             sleep 1
 
-            read -p "Look over files for '${i}'? [Y/n]" check_files
+            read -p "Look over files for '${i}'? [Y/n] " check_files
         done
         echo
     done
