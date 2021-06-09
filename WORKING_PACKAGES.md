@@ -32,5 +32,8 @@ Numix Icon Theme (numix-icon-theme-git)
 ## P
 Papirus Icon Theme (papirus-icon-theme)
 
+## T
+Termius (termius)
+
 ## Z
 Zoho Mail Desktop (zoho-mail-desktop)
