@@ -42,4 +42,5 @@ case ${OP} in
 	install)       install_pkg ;;
 	upgrade)       update_pkg ;;
 	clone)         clone_pkg ;;
+    reconfigure)   reconfigure_pkg ;;
 esac

@@ -10,7 +10,7 @@ install_packages() {
 
   if [[ "${OP}" == "install" ]]; then
       sudo apt install ${aur_packages} ${arch_repository_packages} -y
-  elif [[ "${OP}" == "update" ]]; then
+  elif [[ "${OP}" == "upgrade" ]]; then
       sudo apt dist-upgrade -y
   fi
 }

@@ -16,7 +16,7 @@ install_pkg() {
     # We only want to notify the user of packages that are going to be built
     # when 'install' is specified, as update_pkg() notifies users on what
     # packages are going to be upgraded.
-    if [[ "${OP}" != "update" ]]; then
+    if [[ "${OP}" != "upgrade" ]]; then
 
         if [[ "${aur_dependency_packages}" != "" ]] || [[ "${arch_dependency_packages}" != "" ]]; then
             echo "The following additional packages are going to be built:"
@@ -27,9 +27,10 @@ install_pkg() {
         echo "The following packages are going to be built:"
         echo ${aur_packages} ${arch_repository_packages} ${aur_dependency_packages} ${arch_dependency_packages} | sed 's|^|  |'
         echo
-        read -p "Do you want to continue? [Y/n] " continue_status
+        read -p "Do you want to continue? [Y/n] " continue_status_temp
+        export continue_status="${continue_status_temp,,}"
 
-        [[ "${continue_status:-Y}" != "Y" ]] && exit 1
+        [[ "${continue_status:-y}" != "y" ]] && exit 1
     fi
 
     # Prepare system for building
@@ -57,4 +58,5 @@ install_pkg() {
     # Post-build cleanup
     echo "Cleaning up..."
     [[ "${arg_dryrun}" != "true" ]] && repository_config remove
+    sudo rm "/tmp/${sources_db_backup}"
 }

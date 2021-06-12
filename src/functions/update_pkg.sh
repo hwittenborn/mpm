@@ -19,9 +19,10 @@
   	echo "The following packages are going to be updated:"
   	echo "${to_update[@]}"
   	echo
-  	read -p "Do you want to continue? [Y/n] " continue_status
+  	read -p "Do you want to continue? [Y/n] " continue_status_temp
+    export continue_status="${continue_status_temp,,}"
 
-    if [[ "${continue_status:-Y}" != "Y" ]]; then
+    if [[ "${continue_status:-y}" != "y" ]]; then
         exit 1
     fi
 

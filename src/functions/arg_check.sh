@@ -14,6 +14,7 @@ arg_check() {
 			clone)                         OP="clone"; shift 1; break ;;
 			install)                       OP="install"; shift 1; break ;;
 			update | upgrade)              OP="upgrade"; PKG="TEMP"; shift 1; break ;;
+            reconfigure)                   OP="reconfigure"; shift 1; break ;;
 			*)                             echo "Invalid option '${1}'..."; exit 1 ;;
 		esac
 		shift 1
