@@ -13,18 +13,24 @@ install_pkg() {
 	[[ "${apt_uptodate_message}" != "" ]] && printf "${apt_uptodate_message}"
 	[[ "${aur_packages}" == "" ]] && [[ "${arch_repository_packages}" == "" ]] && exit 2
 
-	if [[ "${aur_dependency_packages}" != "" ]] || [[ "${arch_dependency_packages}" != "" ]]; then
-		echo "The following additional packages are going to be built:"
-		echo ${aur_dependency_packages} ${arch_dependency_packages} | sed 's|^|  |'
-		echo
-	fi
+    # We only want to notify the user of packages that are going to be built
+    # when 'install' is specified, as update_pkg() notifies users on what
+    # packages are going to be upgraded.
+    if [[ "${OP}" != "update" ]]; then
 
-	echo "The following packages are going to be built:"
-	echo ${aur_packages} ${arch_repository_packages} ${aur_dependency_packages} ${arch_dependency_packages} | sed 's|^|  |'
-	echo
-	read -p "Do you want to continue? [Y/n] " continue_status
+        if [[ "${aur_dependency_packages}" != "" ]] || [[ "${arch_dependency_packages}" != "" ]]; then
+            echo "The following additional packages are going to be built:"
+            echo ${aur_dependency_packages} ${arch_dependency_packages} | sed 's|^|  |'
+            echo
+        fi
 
-	[[ "${continue_status:-Y}" != "Y" ]] && exit 1
+        echo "The following packages are going to be built:"
+        echo ${aur_packages} ${arch_repository_packages} ${aur_dependency_packages} ${arch_dependency_packages} | sed 's|^|  |'
+        echo
+        read -p "Do you want to continue? [Y/n] " continue_status
+
+        [[ "${continue_status:-Y}" != "Y" ]] && exit 1
+    fi
 
     # Prepare system for building
     echo "Preparing..."

@@ -36,7 +36,7 @@ arg_check() {
 	done
 
 	if [[ "${PKG}" == "" ]]; then
-		echo "Package field is empty"
+		echo "No packages were specified."
 		exit 1
 	fi
 }

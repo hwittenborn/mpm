@@ -19,26 +19,14 @@
   	echo "The following packages are going to be updated:"
   	echo "${to_update[@]}"
   	echo
-  	echo "Continue?"
-  	printf "Enter yes(y) or no(n): "
-  	read continue_status
+  	read -p "Do you want to continue? [Y/n] " continue_status
 
-  	while [[ "${continue_status}" != "yes" ]] && \
-  	   [[ "${continue_status}" != "y" ]] && \
-  		 [[ "${continue_status}" != "no" ]] && \
-  		 [[ "${continue_status}" != "n" ]]; do
-  			 echo
-  	  echo "Invalid option"
-  		printf "Enter yes(y) or no(n): "
-  		read continue_status
-  	done
-    if [[ "${continue_status}" == "no" ]] || \
-  	   [[ "${continue_status}" == "n" ]]; then
-  	  exit 0
-  	fi
+    if [[ "${continue_status:-Y}" != "Y" ]]; then
+        exit 1
+    fi
 
   	echo "Updating packages..."
-  	PKG=${to_update}
+  	PKG="${to_update}"
 
   	install_pkg
 
