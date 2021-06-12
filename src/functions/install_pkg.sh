@@ -28,6 +28,8 @@ install_pkg() {
 
     # Prepare system for building
     echo "Preparing..."
+    export sources_db_backup="sources-${RANDOM}${RANDOM}${RANDOM}${RANDOM}${RANDOM}.db"
+    sudo cp /etc/mpm/sources.db "/tmp/${sources_db_backup}"
     [[ "${arg_dryrun}" != "true" ]] && repository_config add
 
 	clone_build_files

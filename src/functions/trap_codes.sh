@@ -7,6 +7,7 @@ trap_codes() {
             echo "Cleaning up..."
             if [[ "${arg_dryrun}" != "true" ]]; then
                 sudo rm /etc/apt/sources.list.d/mpm.list &> /dev/null
+                sudo rm "/tmp/${sources_db_backup}"
             fi
         fi
     }
@@ -15,6 +16,10 @@ trap_codes() {
     trap_code_check() {
         if [[ "${?}" != "0" ]]; then
             echo "An unknown error has occurred."
+            echo "Restoring system..."
+            sudo rm /etc/mpm/sources.db
+            sudo cp "/tmp/${sources_db_backup}" /etc/mpm/sources.db
+            
             trap_cleanup
             exit 1
         fi
