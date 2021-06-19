@@ -9,35 +9,10 @@ mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), 
 
 \* Arch repository support is currently available in the alpha release only.
 
-## Installation ##
-First, set up the repository with the following commands:
-```sh
-sudo wget 'https://hunterwittenborn.com/keys/apt.asc' -O /etc/apt/trusted.gpg.d/hwittenborn.asc
-echo 'deb [arch=all] https://repo.hunterwittenborn.com/debian/makedeb any main' | sudo tee /etc/apt/sources.list.d/makedeb.list
-sudo apt update
-```
+## Installation and usage
+Documentation and installation instructions can be found in the [makedeb docs](https://docs.hunterwittenborn.com/makedeb).
 
-Then, install mpm with one of the following commands:
-- mpm (stable release):
-```sh
-sudo apt install mpm
-```
-- mpm (alpha release):
-```sh
-sudo apt install mpm-alpha
-```
-
-As expected, don't run the alpha release if you're expecting stability. Things could break occasionally, and you'll need to know how to get around your system when it happens.
-
-## Usage ##
-Instructions can be found after installation with `mpm --help`
-
-A list of known working packages is available in [WORKING_PACKAGES.md](./WORKING_PACKAGES.md)
-
-Documentation on the inner working of mpm, as well as guides to contributing, are available in the [mpm wiki](https://github.com/hwittenborn/mpm/wiki).
-
-## Other Notes ##
-mpm will only update packages itself has installed. Likewise, if there's any packages you've installed with makedeb that you'd like to update with mpm, uninstall and reinstall them with mpm.
+Help with available commands can also be found after installation with `mpm --help`.
 
 ## Get in touch ##
 A Matrix room is available at [#git:hunterwittenborn.com](https://matrix.to/#/#git:hunterwittenborn.com) for discussion of any of my projects. Feel free to hop in if you need any help.
