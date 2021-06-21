@@ -1,44 +1,40 @@
-# This PKGBUILD was designed to work with makedeb
-#
-# Author: Hunter Wittenborn <hunter@hunterwittenborn.com>
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
-pkgname="${pkgname}"
-pkgver=2.8.0
+pkgname=mpm
+pkgver=2.8.1
 pkgrel=1
-pkgdesc="Package manager for makedeb (${release_type} release)"
+pkgdesc="Package manager for makedeb (git release)"
 depends=('makedeb' 'makedeb-db' 'jq' 'asp')
-conflicts=('mpm-alpha')
 arch=('any')
 license=('GPL3')
 url="https://github.com/hwittenborn/mpm"
-source=("mpm.sh")
-sha256sums=("SKIP")
 
-prepare() {
-  # Alter variables to use backticks as to work properly with sed section below.
-  # Values to be edited are at the bottom of the PKGBUILD
-  FUNCTIONS_DIR=$(echo "${FUNCTIONS_DIR}" | sed 's;/;\\/;g')
-  REPO_DIR=$(echo "${REPO_DIR}" | sed 's;/;\\/;g')
-
-  # Configure variables in mpm.sh
-  sed -i "0,/FUNCTIONS_DIR.*/{s;FUNCTIONS_DIR.*;FUNCTIONS_DIR=$FUNCTIONS_DIR;}" mpm.sh
-  sed -i "0,/REPO_DIR.*/{s;REPO_DIR.*;REPO_DIR=$REPO_DIR;}" mpm.sh
-
-  # Set version
-  sed -i "s|mpm_version=.*|mpm_version=${pkgver}|" mpm.sh
-}
+# Used to obtain folder names for local repository
+_gitdir=$(git rev-parse --show-toplevel)
+_foldername=$(basename "${_gitdir}")
+source=("git+file://${_gitdir}")
+sha256sums=('SKIP')
 
 package() {
-  # Copy mpm files
+  cd "${srcdir}/${_foldername}"
+
+  # Set package version
+  sed "s|mpm_version=.*|mpm_version='${pkgver}'|" src/mpm.sh
+
+  # Create one file out of functions and mpm.sh
   mkdir -p "${pkgdir}/usr/bin/"
-  cp "${srcdir}/mpm.sh" "${pkgdir}/usr/bin/mpm"
-  chmod +x "${pkgdir}/usr/bin/mpm"
+  echo '#!/usr/bin/env bash' > "${pkgdir}/usr/bin/mpm"
 
-  # Copy functions
-  mkdir -p "${pkgdir}"/"${FUNCTIONS_DIR}/functions"
-  cp -R "${srcdir}"/../functions/* "${pkgdir}"/"${FUNCTIONS_DIR}/functions/"
+  for i in $(find src/functions/); do
+    if ! [[ -d "${i}" ]]; then
+      cat "${i}" >> "${pkgdir}/usr/bin/mpm"
+    fi
+  done
+  cat src/mpm.sh >> "${pkgdir}/usr/bin/mpm"
 
-  # SET UP APT REPO
-  mkdir -p "${pkgdir}/${REPO_DIR}/debs"
+  chmod 555 "${pkgdir}/usr/bin/mpm"
+
+  # Set up APT repo and other needed files
+  mkdir -p "${pkgdir}/etc/mpm/repo/debs"
+  touch "${pkgdir}/etc/mpm/sources.db"
 }

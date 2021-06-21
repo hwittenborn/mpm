@@ -2,7 +2,7 @@ help() {
 	echo "mpm (${mpm_version}) - makedeb package manager"
 	echo "Usage: mpm [command] [options]"
 	echo
-	echo "Commands"
+	echo "Commands:"
 	echo "  search - search for a package"
 	echo "  clone - clone packages"
 	echo "  install - install packages"
