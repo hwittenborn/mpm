@@ -19,7 +19,7 @@ package() {
   cd "${srcdir}/${_foldername}"
 
   # Set package version
-  sed "s|mpm_version=.*|mpm_version='${pkgver}'|" src/mpm.sh
+  sed -i "s|mpm_version=.*|mpm_version='${pkgver}'|" src/mpm.sh
 
   # Create one file out of functions and mpm.sh
   mkdir -p "${pkgdir}/usr/bin/"
