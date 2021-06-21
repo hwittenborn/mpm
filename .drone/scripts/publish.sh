@@ -18,7 +18,6 @@ fi
 
 echo "Uploading ${deb_packages} to ${proget_server}..."
 
-set -x
 curl_output=$(curl "https://${proget_server}/debian-packages/upload/makedeb/main/${deb_packages}" \
             --user "api:${proget_api_key}" \
             --upload-file "${deb_packages}")
