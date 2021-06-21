@@ -20,18 +20,15 @@ arch_repository_search_url="https://archlinux.org/packages/search/json/?name="
 arch_archive_url="https://archive.archlinux.org/"
 arch_github_url="https://github.com/archlinux"
 
-# The following are changed via the PKGBUILD at build time. If you'd like to
-# modify them, export the variables (with the desired directories) to your
-# shell's environment and run makedeb.
-FUNCTIONS_DIR="."
+FUNCTIONS_DIR="." # REMOVE AT PACKAGING
 REPO_DIR="/etc/mpm/repo/"
 mpm_version="git"
 
 ##################
 ## BEGIN SCRIPT ##
 ##################
-source <(cat "${FUNCTIONS_DIR}"/functions/*.sh)
-source <(cat "${FUNCTIONS_DIR}"/functions/*/*.sh)
+source <(cat "${FUNCTIONS_DIR}"/functions/*.sh) # REMOVE AT PACKAGING
+source <(cat "${FUNCTIONS_DIR}"/functions/*/*.sh) # REMOVE AT PACKAGING
 set -e
 
 trap_codes

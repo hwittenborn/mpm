@@ -1,7 +1,7 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname=mpm
-pkgver=2.8.3
+pkgver=2.8.4
 pkgrel=1
 pkgdesc="Package manager for makedeb (git release)"
 depends=('makedeb' 'makedeb-db' 'jq' 'asp')
@@ -33,6 +33,9 @@ package() {
   cat src/mpm.sh >> "${pkgdir}/usr/bin/mpm"
 
   chmod 555 "${pkgdir}/usr/bin/mpm"
+
+  # Remove commands used in testing
+  sed -i 's|.*# REMOVE AT PACKAGING||g' "${pkgdir}/usr/bin/mpm"
 
   # Set up APT repo and other needed files
   mkdir -p "${pkgdir}/etc/mpm/repo/debs"
