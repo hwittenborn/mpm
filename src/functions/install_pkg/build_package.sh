@@ -2,7 +2,7 @@ build_package() {
     # Build package
     cd "${1}"
     source PKGBUILD
-    makedeb --convert --syncdeps --pkgname  "${1}" ${makedeb_options}
+    makedeb --convert --syncdeps ${makedeb_options} "${1}"
 
     # Run if the dryrun argument wasn't passed
     if [[ "${arg_dryrun}" != "true" ]]; then
