@@ -3,7 +3,7 @@ aur_check_files() {
         read -p "Look over files for '${i}'? [Y/n] " check_files_temp
         export check_files="${check_files_temp,,}"
 
-        while [[ "${check_files:-y}" != "y" ]]; do
+        while [[ "${check_files:-y}" != "n" ]]; do
             nano "${i}"/PKGBUILD
             source "${i}"/PKGBUILD
 
@@ -21,7 +21,8 @@ aur_check_files() {
             done
             sleep 1
 
-            read -p "Look over files for '${i}'? [Y/n] " check_files
+            read -p "Look over files for '${i}'? [Y/n] " check_files_temp
+            export check_files="${check_files_temp,,}"
         done
         echo
     done

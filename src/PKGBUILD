@@ -1,7 +1,7 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname=mpm
-pkgver=2.8.5
+pkgver=2.8.6
 pkgrel=1
 pkgdesc="Package manager for makedeb (git release)"
 depends=('makedeb' 'makedeb-db' 'jq' 'asp')
