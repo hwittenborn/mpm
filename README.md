@@ -4,6 +4,8 @@
 <img alt="Drone CI - Alpha" src="https://img.shields.io/drone/build/hwittenborn/mpm/alpha?label=alpha&server=https%3A%2F%2Fdrone.hunterwittenborn.com">
 </div>
 
+**NOTE:** mpm has not been updated for use with the DUR yet. Updates will be provided soon, which will remove all AUR and Arch repository functionality, and move everything to point to the DUR.
+
 ## Overview ##
 mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation, updating, and cloning of packages from the AUR and Arch Linux repositories(*) on Debian and Debian-based systems.
 
