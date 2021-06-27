@@ -1,0 +1,28 @@
+pkgname=mpm
+pkgver=2.0.0
+pkgrel=1
+pkgdesc="Fully-featured reference DUR helper"
+arch=('any')
+depends=('jq' 'curl' 'apt')
+conflicts=('mpm-alpha' 'mpm')
+
+_gitdir="$(git rev-parse --show-toplevel)"
+_foldername="$(basename "${_gitdir}")"
+
+source=("git+file://${_gitdir}")
+sha256sums=('SKIP')
+
+package() {
+    mkdir -p "${pkgdir}/usr/bin/"
+
+    echo '#!/usr/bin/env bash' > "${pkgdir}/usr/bin/mpm"
+
+    # Copy mpm functions and entrypoint into mpm file
+    cd "${_foldername}"
+    for i in $(find "src/functions" -type f); do
+        cat "${i}" > "${pkgdir}/usr/bin/mpm"
+    done
+    cat "src/mpm.sh" > "${pkgdir}/usr/bin/mpm"
+
+    chmod 555 "${pkgdir}/usr/bin/mpm"
+}

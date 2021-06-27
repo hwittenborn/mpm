@@ -1,0 +1,19 @@
+search_package() {
+    curl_output="$(curl -s "https://${dur_url}/rpc/?v=5&type=search&arg=${packages}")"
+
+    if ! echo "${curl_output}" | jq &> /dev/null; then
+        echo "There was an error processing the request."
+        exit 1
+    fi
+
+    resultcount="$(echo "${curl_output}" | jq .resultcount)"
+
+    if [[ "${resultcount}" == "0" ]]; then
+        echo "No results."
+        exit 1
+    fi
+
+    number="${resultcount}"
+
+    generate_results | head -c -1
+}
