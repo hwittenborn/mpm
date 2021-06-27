@@ -5,6 +5,7 @@ pkgdesc="Fully-featured reference DUR helper"
 arch=('any')
 depends=('jq' 'curl' 'apt')
 conflicts=('mpm-alpha' 'mpm')
+options=('emptydirs')
 
 _gitdir="$(git rev-parse --show-toplevel)"
 _foldername="$(basename "${_gitdir}")"
@@ -20,9 +21,16 @@ package() {
     # Copy mpm functions and entrypoint into mpm file
     cd "${_foldername}"
     for i in $(find "src/functions" -type f); do
-        cat "${i}" > "${pkgdir}/usr/bin/mpm"
+        cat "${i}" >> "${pkgdir}/usr/bin/mpm"
     done
-    cat "src/mpm.sh" > "${pkgdir}/usr/bin/mpm"
+    cat "src/mpm.sh" >> "${pkgdir}/usr/bin/mpm"
 
     chmod 555 "${pkgdir}/usr/bin/mpm"
+
+    # Remove testing commands
+    sed -i 's|.*# REMOVE AT PACKAGING||g' "${pkgdir}/usr/bin/mpm"
+
+    # Create repository directory
+    mkdir -p "${pkgdir}/var/lib/mpm/repo/debs"
+    touch "${pkgdir}/var/lib/mpm/packages.db"
 }

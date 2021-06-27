@@ -62,9 +62,7 @@ install_package() {
         done
     }
     clone_packages &
-    process_id="$!"
     spinner
-    unset process_id
 
     for i in ${packages}; do
         read -p "Look over files for '${i}'? [Y/n] " continue_status
@@ -79,9 +77,11 @@ install_package() {
         echo
     done
 
-    echo "Installing dependencies..."
-    sudo apt install ${dependency_list}
-    sudo apt-mark auto ${dependency_list}
+    if [[ "${dependency_list}" != "" ]]; then
+        echo "Installing dependencies..."
+        sudo apt install ${dependency_list}
+        sudo apt-mark auto ${dependency_list}
+    fi
 
     if [[ "${?}" != "0" ]]; then
         echo "There was an error installing the dependencies."
@@ -99,6 +99,7 @@ install_package() {
         ( makedeb -v )
 
         for j in ${pkgname}; do
+            sudo rm "/var/lib/mpm/repo/debs/${j}_*.deb"
             sudo cp "${j}_${package_version}_${system_architecture}.deb" "/var/lib/mpm/repo/debs/"
         done
 
@@ -107,10 +108,19 @@ install_package() {
         cd ..
     done
 
+    cd /var/lib/mpm/repo
+    printf "Generating package repository..."
+    dpkg-scanpackages debs | sudo tee Packages &> /dev/null &
+    spinner
+
     echo "Installing packages..."
     sudo apt install ${packages} -o "Dir::Etc::sourcelist=sources.list.d/${random_string}.list" \
                                  -o "Dir::Etc:sourceparts=-" \
                                  -o "APT::Get::List-Cleanup=0"
+
+    echo "Cleaning up..."
+    configure_system cleanup &
+    spinner
 
     echo "Done."
 }
