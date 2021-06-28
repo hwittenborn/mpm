@@ -99,7 +99,7 @@ install_package() {
         ( makedeb -v )
 
         for j in ${pkgname}; do
-            sudo rm "/var/lib/mpm/repo/debs/${j}_*.deb"
+            sudo rm "/var/lib/mpm/repo/debs/"${j}_*.deb
             sudo cp "${j}_${package_version}_${system_architecture}.deb" "/var/lib/mpm/repo/debs/"
         done
 
