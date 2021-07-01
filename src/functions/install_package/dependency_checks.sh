@@ -24,12 +24,15 @@ dependency_checks() {
 
     apt_output="$(apt list ${dependency_list} 2> /dev/null | grep -E "${system_architecture}|all")"
 
+    # Check which dependencies are installable, whether or not they are already installed
     for i in ${dependencies}; do
         package_name="$(echo "${i}" | grep -o '^[^>]*' | grep -o '^[^<]*' | grep -o '^[^=]*')"
 
-        relationship_string="$(echo "${i}" | grep -Eo '<.*|>.*|=.*')"
-        relationship_type="$(echo "${relationship_string}" | grep -Eo '<<|<=|=|>=|>>')"
-        relationship_version="$(echo "${relationship_string}" | sed -E 's/<<|<=|=|>=|>>//g')"
+        # Added 'cat' to end as the subshell gives a non-zero code on 'grep' if
+        # it couldn't find any matching text.
+        relationship_string="$(echo "${i}" | grep -Eo '<.*|>.*|=.*' | cat)"
+        relationship_type="$(echo "${relationship_string}" | grep -Eo '<<|<=|=|>=|>>' | cat)"
+        relationship_version="$(echo "${relationship_string}" | sed -E 's/<<|<=|=|>=|>>//g' | cat)"
 
         apt_found_package="$(echo "${apt_output}" | grep -Eo "^${i}[^/]*")"
         apt_package_version="$(echo "${apt_found_package}" | awk '{print $2}')"
@@ -43,6 +46,7 @@ dependency_checks() {
         # if it is, as that means the package is available (see prev. check),
         # and there was no version to check against.
         elif [[ "${relationship_type}" == "" ]]; then
+            apt_good_packages+=" ${i}"
             continue
 
         else
@@ -60,8 +64,17 @@ dependency_checks() {
             fi
 
             if ! /usr/bin/test "${apt_package_version}" "${apt_relationship_type}" "${relationship_version}"; then
-                apt_bad_package+=" ${i}"
+                apt_bad_packages+=" ${i}"
+            else
+                apt_good_packages+=" ${i}"
             fi
+        fi
+    done
+
+    # Remove any packages from the list of good dependencies that are already installed
+    for i in ${apt_good_packages}; do
+        if [[ "$(echo "${apt_output}" | grep -E "^${i}/" | awk '{print $4}' | grep -o '\[installed')" != '[installed' ]]; then
+            dependency_install_list+=" ${i}"
         fi
     done
 }

@@ -1,23 +1,33 @@
 #!/usr/bin/env bash
+set -ex
+set -o pipefail
 
-cd src
-component_name="$(cat PKGBUILD | grep 'pkgname=' | sed 's|pkgname=||')"
+publish_github() {
+    cd src/
 
-# Check for build debs
-deb_packages=$(find *.deb 2> /dev/null)
-deb_packages_count=$(echo "${deb_packages}" | wc -w)
+    pkgbuild_pkgver="$(sudo -u user makedeb --printsrcinfo | grep 'pkgver =' | awk -F ' = ' '{print $2}')"
 
-if [[ "${deb_packages_count}" == "0" ]]; then
-    echo "ERROR: There doesn't appear to be any packages present."
-    exit 1
+    curl -X 'POST' \
+         -u "kavplex:${github_pat}" \
+         -H 'Accept: application/vnd.github.v3+json' \
+         -d "{\"tag_name\": \"v${pkgbuild_pkgver}\"}" \
+         -d "{\"name\": \"v${pkgbuild_pkgver}\"}" \
+         "https://api.${github_url}/repos/hwittenborn/mpm/releases"
 
-elif [[ "${deb_packages_count}" -gt "1" ]]; then
-    echo "ERROR: More than one package is present."
-    exit 1
-fi
+}
 
-echo "Uploading ${deb_packages} to ${proget_server}..."
+# Begin Script
+useradd user
 
-curl_output=$(curl "https://${proget_server}/debian-packages/upload/makedeb/main/${deb_packages}" \
-            --user "api:${proget_api_key}" \
-            --upload-file "${deb_packages}")
+rm -rf '/root/.ssh/' || true
+mkdir -p '/root/.ssh/'
+
+echo "${known_hosts}" > '/root/.ssh/known_hosts'
+echo "${ssh_key}" > '/root/.ssh/dur'
+
+chmod 400 '/root/.ssh/' -R
+
+case "${1}" in
+    github)    publish_github ;;
+    dur)       publish_dur ;;
+esac

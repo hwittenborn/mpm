@@ -6,7 +6,7 @@ install_package() {
     export curl_output="$(curl -s "https://${dur_url}/rpc/?v=5&type=info${dur_package_args}")"
 
     if ! echo "${curl_output}" | jq &> /dev/null; then
-        printf "There was an error processing your request.\n"
+        echo "There was an error processing your request."
         exit 1
     fi
 
@@ -15,33 +15,24 @@ install_package() {
 
     if [[ "${num_of_packages}" != "${resultcount}" ]]; then
         find_missing_packages
-        printf "Couldn't find the following packages: $(echo "${unknown_packages}" | xargs | sed 's| |, |g')\n"
+        echo "Couldn't find the following packages: $(echo "${unknown_packages}" | xargs | sed 's| |, |g')\n"
         exit 1
     fi
 
-    if [[ -d "/var/tmp/${USER}/mpm/" ]]; then
-        rm -rf "/var/tmp/${USER}/mpm/" || { printf "Couldn't remove old build directory.\n"; exit 1; }
-    fi
+    echo "Checking build dependencies..."
+    dependency_checks
 
-    mkdir -p "/var/tmp/${USER}/mpm/"
-    cd "/var/tmp/${USER}/mpm/"
-
-    printf "Checking package dependencies..."
-    dependency_checks &
-    process_id="$!"
-    spinner
-    unset process_id
-
+    echo
     if [[ "${apt_bad_package}" != "" ]]; then
-        echo "The following dependencies are unable to be installed:"
+        echo "The following build packages have unmet dependencies:"
         echo "  $(echo "${apt_bad_package}" | xargs | sed 's| |, |g')"
     fi
 
-    if [[ "${dependency_list}" != "" ]]; then
+    if [[ "${dependency_install_list}" != "" ]]; then
         echo "The following additional packages are going to be installed:"
-        echo "  ${dependency_list}"
+        echo " ${dependency_install_list}"
         echo "The following packages are going to be installed:"
-        echo "  ${packages} ${dependency_list}"
+        echo "  ${packages}${dependency_install_list}"
     else
         echo "The following packages are going to be installed:"
         echo "  ${packages}"
@@ -49,20 +40,20 @@ install_package() {
 
     echo
     read -p "Do you want to continue? [Y/n] " continue_status
-    if [[ "${continue_status,,}" == "n" ]]; then
+    if [[ "${aborting_now}" != "true" &&  "${continue_status,,}" == "n" ]]; then
         echo "Quitting..."
         exit 1
     fi
     unset continue_status
 
-    printf "Cloning packages..."
-    clone_packages() {
-        for i in ${packages}; do
-            git clone "https://${dur_url}/${i}.git" &> /dev/null
-        done
-    }
-    clone_packages &
-    spinner
+    echo "Preparing..."
+    configure_system prepare
+    cd "/var/tmp/mpm/builddir/"
+
+    echo "Cloning packages..."
+    for i in ${packages}; do
+        git clone "https://${dur_url}/${i}.git" &> /dev/null
+    done
 
     for i in ${packages}; do
         read -p "Look over files for '${i}'? [Y/n] " continue_status
@@ -77,7 +68,7 @@ install_package() {
         echo
     done
 
-    if [[ "${dependency_list}" != "" ]]; then
+    if [[ "${dependency_install_list}" != "" ]]; then
         echo "Installing dependencies..."
         sudo apt install ${dependency_list}
         sudo apt-mark auto ${dependency_list}
@@ -94,13 +85,17 @@ install_package() {
     for i in ${packages}; do
         cd "${i}"
 
-        package_version="$(echo "${curl_output}" | jq ".results[$number].Version")"
+        package_version="$(echo "${curl_output}" | jq -r ".results[$number].Version")"
         source PKGBUILD
-        ( makedeb -v )
+
+        if [[ "${arch}" == "any" ]]; then
+            system_architecture="all"
+        fi
+
+        makedeb -v
 
         for j in ${pkgname}; do
-            sudo rm "/var/lib/mpm/repo/debs/"${j}_*.deb
-            sudo cp "${j}_${package_version}_${system_architecture}.deb" "/var/lib/mpm/repo/debs/"
+            sudo cp "${j}_${package_version}_${system_architecture}.deb" "/var/tmp/mpm/debs/"
         done
 
         package_db add "${i}" "${package_version}"
@@ -108,19 +103,14 @@ install_package() {
         cd ..
     done
 
-    cd /var/lib/mpm/repo
-    printf "Generating package repository..."
-    dpkg-scanpackages debs | sudo tee Packages &> /dev/null &
-    spinner
-
     echo "Installing packages..."
-    sudo apt install ${packages} -o "Dir::Etc::sourcelist=sources.list.d/${random_string}.list" \
-                                 -o "Dir::Etc:sourceparts=-" \
-                                 -o "APT::Get::List-Cleanup=0"
+    echo
+    cd /var/tmp/mpm/debs/
+    sudo apt install ./*.deb
+    echo
 
     echo "Cleaning up..."
-    configure_system cleanup &
-    spinner
+    configure_system cleanup
 
     echo "Done."
 }

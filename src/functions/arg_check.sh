@@ -6,7 +6,7 @@ arg_check() {
         update|upgrade)    export operation="update" ;;
         *)                 echo "Unknown command '${1}'. See the list of available commands with 'mpm --help'." ;;
     esac
-    shift 1
+    shift 1 || true
 
     while [[ "${1}" != "" ]]; do
         case ${1} in
@@ -15,7 +15,7 @@ arg_check() {
             *)             packages_temp+="${1} " ;;
         esac
 
-        shift 1
+        shift 1 || true
     done
 
     # Post checks

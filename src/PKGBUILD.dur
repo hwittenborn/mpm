@@ -7,19 +7,13 @@ depends=('jq' 'curl' 'apt')
 conflicts=('mpm-alpha' 'mpm')
 options=('emptydirs')
 
-_gitdir="$(git rev-parse --show-toplevel)"
-_foldername="$(basename "${_gitdir}")"
-
-source=("git+file://${_gitdir}")
-sha256sums=('SKIP')
-
 package() {
     mkdir -p "${pkgdir}/usr/bin/"
 
     echo '#!/usr/bin/env bash' > "${pkgdir}/usr/bin/mpm"
 
     # Copy mpm functions and entrypoint into mpm file
-    cd "${_foldername}"
+    cd "${pkgname}_${pkgver}-${pkgrel}"
     for i in $(find "src/functions" -type f); do
         cat "${i}" >> "${pkgdir}/usr/bin/mpm"
     done
@@ -30,7 +24,8 @@ package() {
     # Remove testing commands
     sed -i 's|.*# REMOVE AT PACKAGING||g' "${pkgdir}/usr/bin/mpm"
 
-    # Create repository directory
-    mkdir -p "${pkgdir}/var/lib/mpm/repo/debs"
+    # Package repository stuff
+    mkdir -p "${pkgdir}/var/lib/mpm/"
     touch "${pkgdir}/var/lib/mpm/packages.db"
+    chmod 444 "${pkgdir}/var/lib/mpm/packages.db"
 }

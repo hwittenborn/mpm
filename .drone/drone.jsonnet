@@ -1,26 +1,14 @@
-local buildAndPublish(a, b) = {
-    name: "build-and-publish-" + a,
+local publishPackage() = {
+    name: "publish-package",
     kind: "pipeline",
     type: "docker",
-    trigger: {branch: [a]},
+
     steps: [
         {
-            name: "build-debian-package",
-            image: "proget.hunterwittenborn.com/docker/hunter/makedeb:alpha",
-            environment: {release_type: a, package_name: b},
-            commands: [".drone/scripts/build.sh"]
-        },
-
-        {
-            name: "publish-proget",
-            image: "proget.hunterwittenborn.com/docker/hunter/makedeb:alpha",
-            environment: {proget_api_key: {from_secret: "proget_api_key"}},
-            commands: [".drone/scripts/publish.sh"]
+            name: "publish-github",
+            image: "helpmeplz",
+            environment: {github_pat: {from_secret: "github_pat"}},
+            commands: [".drone/scripts/publish.sh github"]
         }
     ]
-};
-
-[
-    buildAndPublish("stable", "mpm"),
-    buildAndPublish("alpha", "mpm-alpha"),
-]
+}

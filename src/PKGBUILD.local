@@ -1,0 +1,7 @@
+source PKGBUILD.dur
+
+_gitdir="$(git rev-parse --show-toplevel)"
+_foldername="$(basename "${_gitdir}")"
+
+_gitdir="$(git rev-parse --show-toplevel)"
+_foldername="$(basename "${_gitdir}")"
