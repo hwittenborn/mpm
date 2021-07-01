@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-set -ex
 set -o pipefail
+set -ex
 
 publish_github() {
     cd src/
 
-    pkgbuild_pkgver="$(sudo -u user makedeb --printsrcinfo | grep 'pkgver =' | awk -F ' = ' '{print $2}')"
+    pkgbuild_pkgver="$(sudo -u user makedeb --printsrcinfo -F 'PKGBUILD.dur' | grep 'pkgver =' | awk -F ' = ' '{print $2}')"
 
     curl -X 'POST' \
          -u "kavplex:${github_pat}" \
