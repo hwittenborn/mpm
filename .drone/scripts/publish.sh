@@ -19,6 +19,8 @@ publish_github() {
 # Begin Script
 useradd user
 
+chown 'user:user' * -R
+
 rm -rf '/root/.ssh/' || true
 mkdir -p '/root/.ssh/'
 
