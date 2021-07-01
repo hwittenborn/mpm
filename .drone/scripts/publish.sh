@@ -5,7 +5,7 @@ set -ex
 publish_github() {
     cd src/
 
-    sudo -u user makedeb --printsrcinfo -F 'PKGBUILD.dur'
+    sudo -u user -- makedeb --printsrcinfo -F 'PKGBUILD.dur'
     pkgbuild_pkgver="$(sudo -u user makedeb --printsrcinfo -F 'PKGBUILD.dur' | grep 'pkgver =' | awk -F ' = ' '{print $2}')"
 
     curl -X 'POST' \
