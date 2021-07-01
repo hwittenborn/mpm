@@ -8,13 +8,15 @@ publish_github() {
     sudo -u user -- makedeb --printsrcinfo -F 'PKGBUILD.dur'
     pkgbuild_pkgver="$(sudo -u user makedeb --printsrcinfo -F 'PKGBUILD.dur' | grep 'pkgver =' | awk -F ' = ' '{print $2}')"
 
-    curl -X 'POST' \
-         -u "kavplex:${github_pat}" \
-         -H 'Accept: application/vnd.github.v3+json' \
-         -d "{\"tag_name\": \"v${pkgbuild_pkgver}\"}" \
-         -d "{\"name\": \"v${pkgbuild_pkgver}\"}" \
-         "https://api.${github_url}/repos/hwittenborn/mpm/releases"
+    curl_output=$(curl -iX 'POST' \
+                       -u "kavplex:${github_pat}" \
+                       -H 'Accept: application/vnd.github.v3+json' \
+                       -d "{\"tag_name\":\"v${pkgbuild_pkgver}\",\"name\":\"v${pkgbuild_pkgver}\"}" \
+                       "https://api.${github_url}/repos/hwittenborn/mpm/releases")
 
+    if [[ "$(echo "${curl_output}" | head -n 1 | grep '404')" != "" ]]; then
+        exit 1
+    fi
 }
 
 # Begin Script
