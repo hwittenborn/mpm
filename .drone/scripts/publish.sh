@@ -5,13 +5,12 @@ set -ex
 publish_github() {
     cd src/
 
-    sudo -u user -- makedeb --printsrcinfo -F 'PKGBUILD.dur'
     pkgbuild_pkgver="$(sudo -u user makedeb --printsrcinfo -F 'PKGBUILD.dur' | grep 'pkgver =' | awk -F ' = ' '{print $2}')"
 
     curl_output=$(curl -iX 'POST' \
                        -u "kavplex:${github_pat}" \
                        -H 'Accept: application/vnd.github.v3+json' \
-                       -d "{\"tag_name\":\"v${pkgbuild_pkgver}\",\"name\":\"v${pkgbuild_pkgver}\"},\"body\":\"Automated release for pulling on the DUR.\"" \
+                       -d "{\"tag_name\":\"v${pkgbuild_pkgver}\",\"name\":\"v${pkgbuild_pkgver}\",\"body\":\"Automated release for pulling on the DUR.\"}" \
                        "https://api.${github_url}/repos/hwittenborn/mpm/releases")
 
     if [[ "$(echo "${curl_output}" | head -n 1 | grep '404')" != "" ]]; then
