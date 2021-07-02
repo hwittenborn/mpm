@@ -22,7 +22,7 @@ publish_dur() {
     git config user.name "Kavplex Bot"
     git config user.email "kavplex@hunterwittenborn.com"
 
-    git clone "ssh://${dur_url}/mpm.git" "mpm-dur"
+    git clone "ssh://dur@${dur_url}/mpm.git" "mpm-dur"
     cd 'mpm-dur'
 
     rm -rf PKGBUILD
