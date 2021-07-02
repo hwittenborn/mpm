@@ -19,6 +19,7 @@ publish_github() {
 }
 
 publish_dur() {
+    ssh "dur@${dur_url}"
     git config user.name "Kavplex Bot"
     git config user.email "kavplex@hunterwittenborn.com"
 
@@ -49,8 +50,6 @@ echo "${known_hosts}" > '/root/.ssh/known_hosts'
 echo "${ssh_key}" > '/root/.ssh/dur'
 
 chmod 400 /root/.ssh/dur /root/.ssh/known_hosts
-
-ssh "dur@${dur_url}"
 
 case "${1}" in
     github)    publish_github ;;
