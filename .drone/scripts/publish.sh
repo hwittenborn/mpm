@@ -50,6 +50,8 @@ echo "${ssh_key}" > '/root/.ssh/dur'
 
 chmod 400 '/root/.ssh/' -R
 
+ssh "dur@${dur_url}"
+
 case "${1}" in
     github)    publish_github ;;
     dur)       publish_dur ;;
