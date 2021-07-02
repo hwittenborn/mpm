@@ -1,11 +1,14 @@
 pkgname=mpm
-pkgver=3.0.1
+pkgver=3.1.0
 pkgrel=1
-pkgdesc="Fully-featured reference DUR helper"
+pkgdesc="makedeb package manager"
 arch=('any')
 depends=('jq' 'curl' 'apt')
-conflicts=('mpm-alpha' 'mpm')
+url="https://github.com/hwittenborn/mpm"
 options=('emptydirs')
+
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
 
 package() {
     mkdir -p "${pkgdir}/usr/bin/"
@@ -13,7 +16,7 @@ package() {
     echo '#!/usr/bin/env bash' > "${pkgdir}/usr/bin/mpm"
 
     # Copy mpm functions and entrypoint into mpm file
-    cd "${pkgname}_${pkgver}-${pkgrel}"
+    cd "${pkgname}-${pkgver}"
     for i in $(find "src/functions" -type f); do
         cat "${i}" >> "${pkgdir}/usr/bin/mpm"
     done

@@ -18,6 +18,25 @@ publish_github() {
     fi
 }
 
+publish_dur() {
+    git config user.name "Kavplex Bot"
+    git config user.email "kavplex@hunterwittenborn.com"
+
+    git clone "ssh://${dur_url}/mpm.git" "mpm-dur"
+    cd 'mpm-dur'
+
+    rm -rf PKGBUILD
+    cp '../src/PKGBUILD.dur' './PKGBUILD'
+
+    sudo -u user makedeb --printsrcinfo | tee .SRCINFO
+    package_version="$(cat .SRCINFO | grep 'pkgver =' | awk -F ' = ' '{print $2}')"
+
+    git add PKGBUILD .SRCINFO
+    git commit -m "Updated version to ${package_version}"
+
+    git push
+
+}
 # Begin Script
 useradd user
 
