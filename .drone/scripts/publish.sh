@@ -19,7 +19,6 @@ publish_github() {
 }
 
 publish_dur() {
-    ssh "dur@${dur_url}"
     git config user.name "Kavplex Bot"
     git config user.email "kavplex@hunterwittenborn.com"
 
