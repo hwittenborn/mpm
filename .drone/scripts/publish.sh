@@ -47,9 +47,11 @@ rm -rf '/root/.ssh/' || true
 mkdir -p '/root/.ssh/'
 
 echo "${known_hosts}" > '/root/.ssh/known_hosts'
-echo "${ssh_key}" > '/root/.ssh/dur'
+echo "${ssh_key}" > '/root/.ssh/DUR'
 
-chmod 400 /root/.ssh/dur /root/.ssh/known_hosts
+chmod 400 /root/.ssh/DUR /root/.ssh/known_hosts
+
+printf "Host ${dur_url}\n  Hostname ${dur_url}\n  IdentityFile /root/.ssh/DUR\n" | tee /root/.ssh/config
 
 case "${1}" in
     github)    publish_github ;;
