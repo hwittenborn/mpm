@@ -48,7 +48,7 @@ mkdir -p '/root/.ssh/'
 echo "${known_hosts}" > '/root/.ssh/known_hosts'
 echo "${ssh_key}" > '/root/.ssh/dur'
 
-chmod 400 '/root/.ssh/' -R
+chmod 400 /root/.ssh/dur /root/.ssh/known_hosts
 
 ssh "dur@${dur_url}"
 
