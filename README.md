@@ -1,27 +1,29 @@
 <h1 align="center">mpm</h1>
 <div align="center">
-<img alt="Drone CI - Stable" src="https://img.shields.io/drone/build/hwittenborn/mpm/stable?label=stable&server=https%3A%2F%2Fdrone.hunterwittenborn.com">
-<img alt="Drone CI - Alpha" src="https://img.shields.io/drone/build/hwittenborn/mpm/alpha?label=alpha&server=https%3A%2F%2Fdrone.hunterwittenborn.com">
+<img alt="Drone CI Status" src="https://img.shields.io/drone/build/hwittenborn/mpm/main?label=build&server=https%3A%2F%2Fdrone.hunterwittenborn.com">
 </div>
 
-**NOTE:** mpm has not been updated for use with the DUR yet. Updates will be provided soon, which will remove all AUR and Arch repository functionality, and move everything to point to the DUR.
-
 ## Overview ##
-mpm is a package manager for [makedeb](https://github.com/hwittenborn/makedeb), allowing for installation, updating, and cloning of packages from the AUR and Arch Linux repositories(*) on Debian and Debian-based systems.
+mpm is a package manager for the [DUR](https://dur.hunterwittenborn.com/), making it easier to obtain and build PKGBUILDs to install packages.
 
-\* Arch repository support is currently available in the alpha release only.
+Currently, mpm has (and plans for) the following features:
+
+- Searching
+- Installing
+- Updating (to-do)
+- Cloning (to-do)
 
 ## Installation and usage
-Documentation and installation instructions can be found in the [makedeb docs](https://docs.hunterwittenborn.com/makedeb).
+mpm can be installed [directly from the DUR](https://dur.hunterwittenborn.com/packages/mpm).
 
 Help with available commands can also be found after installation with `mpm --help`.
 
 ## Get in touch ##
-A Matrix room is available at [#git:hunterwittenborn.com](https://matrix.to/#/#git:hunterwittenborn.com) for discussion of any of my projects. Feel free to hop in if you need any help.
+A [Matrix space](https://matrix.to/#/!KOdBeHhHDQPQNLgioI:hunterwittenborn.com?via=hunterwittenborn.com&via=matrix.org&via=nerv.com.au) is available for assistance with makedeb, the DUR, and contribution help.
 
 ## Sponsors
-Thank you to the following companies who have generously given resources to help the makedeb project:
+Thank you to the following companies who have generously given resources to help mpm:
 
-[GitBook](https://www.gitbook.com/): For documentation hosting. GitBook lets you create your own documentation in multiple formats, including Markdown and a WYSIWYG editor. GitBook also natively integrates with other services such as GitHub and Google Analytics.
+[GitBook](https://www.gitbook.com/): For documentation hosting for makedeb. GitBook lets you create your own documentation in multiple formats, including Markdown and a WYSIWYG editor. GitBook also natively integrates with other services such as GitHub and Google Analytics.
 
-[Inedo](https://inedo.com/): For their universal package manager and Docker registry tool, [ProGet](https://inedo.com/proget). ProGet is used in the makedeb project to manage both Debian packages and Docker images. In addition, ProGet also supports private repositories and registries, as well as numerous package formats, including RPM, NuGet, and npm.
+[Inedo](https://inedo.com/): For their universal package manager and Docker registry tool, [ProGet](https://inedo.com/proget). ProGet is used in makedeb to manage both Debian packages and Docker images. In addition, ProGet also supports private repositories and registries, as well as numerous package formats, including RPM, NuGet, and npm.
