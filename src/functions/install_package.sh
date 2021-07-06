@@ -23,24 +23,22 @@ install_package() {
     dependency_checks
 
     echo
-    if [[ "${apt_bad_package}" != "" ]]; then
-        echo "The following build packages have unmet dependencies:"
-        echo "  $(echo "${apt_bad_package}" | xargs | sed 's| |, |g')"
-    fi
 
-    if [[ "${dependency_install_list}" != "" ]]; then
+    if [[ "${apt_needed_dependencies}" != "" ]]; then
         echo "The following additional packages are going to be installed:"
-        echo " ${dependency_install_list}"
+        echo " ${apt_needed_dependencies}"
+        echo "The following packages are going to be built:"
+        echo "  ${packages}"
         echo "The following packages are going to be installed:"
-        echo "  ${packages}${dependency_install_list}"
+        echo "  ${packages} ${apt_needed_dependencies}"
     else
-        echo "The following packages are going to be installed:"
+        echo "The following packages are going to be built and installed:"
         echo "  ${packages}"
     fi
 
     echo
     read -p "Do you want to continue? [Y/n] " continue_status
-    if [[ "${aborting_now}" != "true" &&  "${continue_status,,}" == "n" ]]; then
+    if [[ "${continue_status,,}" == "n" ]]; then
         echo "Quitting..."
         exit 1
     fi
@@ -68,16 +66,21 @@ install_package() {
         echo
     done
 
-    if [[ "${dependency_install_list}" != "" ]]; then
+    if [[ "${apt_needed_dependencies}" != "" ]]; then
         echo "Installing dependencies..."
-        sudo apt install ${dependency_list}
-        sudo apt-mark auto ${dependency_list}
-    fi
+        sudo apt install ${apt_needed_dependencies}
+        apt_exit_code="${?}"
 
-    if [[ "${?}" != "0" ]]; then
-        echo "There was an error installing the dependencies."
-        echo "Quitting..."
+        sudo apt-mark auto ${apt_needed_dependencies} &> /dev/null
+
+        if [[ "${apt_exit_code}" != "0" ]]; then
+            echo "There was an error installing build dependencies."
+            echo "Quitting..."
+            exit 1
+        fi
+
     fi
+    unset apt_exit_code
 
     echo "Building packages..."
 
@@ -92,13 +95,11 @@ install_package() {
             system_architecture="all"
         fi
 
-        makedeb -v
+        makedeb -vH 'MPR-Package: True'
 
         for j in ${pkgname}; do
             sudo cp "${j}_${package_version}_${system_architecture}.deb" "/var/tmp/mpm/debs/"
         done
-
-        package_db add "${i}" "${package_version}"
 
         cd ..
     done
@@ -108,9 +109,5 @@ install_package() {
     cd /var/tmp/mpm/debs/
     sudo apt install ./*.deb
     echo
-
-    echo "Cleaning up..."
-    configure_system cleanup
-
     echo "Done."
 }

@@ -12,69 +12,33 @@ dependency_checks() {
         number="$(( ${number} + 1 ))"
     done
 
-    dependencies="$(echo "${dependencies_temp}" | sed 's| |\n|g' | sort -u | xargs)"
-    make_dependencies="$(echo "${make_dependencies_temp}" | sed 's| |\n|g' | sort -u | xargs)"
-    check_dependencies="$(echo "${check_dependencies_temp}" | sed 's| |\n|g' | sort -u | xargs)"
-
+    dependency_packages="$(echo "${dependencies_temp}" "${make_dependencies_temp}" "${check_dependencies_temp}" | sed 's| |\n|g' | sort -u | xargs)"
     unset dependencies_temp make_dependencies_temp check_dependencies_temp
 
-    # Remove dependency relationships (<<, <=, =, >=, >>) from list for checking
-    # with APT, as APT doesn't allow using those descriptors.
-    dependency_list="$(echo "${dependencies}" "${make_dependencies}" "${check_dependencies}" | sed 's| |\n|g' | sed -E 's/>.*|<.*|=.*//g' | xargs)"
-
-    apt_output="$(apt list ${dependency_list} 2> /dev/null | grep -E "${system_architecture}|all")"
-
-    # Check which dependencies are installable, whether or not they are already installed
-    for i in ${dependencies}; do
-        package_name="$(echo "${i}" | grep -o '^[^>]*' | grep -o '^[^<]*' | grep -o '^[^=]*')"
-
-        # Added 'cat' to end as the subshell gives a non-zero code on 'grep' if
-        # it couldn't find any matching text.
-        relationship_string="$(echo "${i}" | grep -Eo '<.*|>.*|=.*' | cat)"
-        relationship_type="$(echo "${relationship_string}" | grep -Eo '<<|<=|=|>=|>>' | cat)"
-        relationship_version="$(echo "${relationship_string}" | sed -E 's/<<|<=|=|>=|>>//g' | cat)"
-
-        apt_found_package="$(echo "${apt_output}" | grep -Eo "^${i}[^/]*")"
-        apt_package_version="$(echo "${apt_found_package}" | awk '{print $2}')"
-
-        # Check if package can be found
-        if [[ "${apt_found_package}" == "" ]]; then
-            apt_bad_packages+=" ${i}"
-            continue
-
-        # Check if relationship_type is empty. We can just start the next loop
-        # if it is, as that means the package is available (see prev. check),
-        # and there was no version to check against.
-        elif [[ "${relationship_type}" == "" ]]; then
-            apt_good_packages+=" ${i}"
-            continue
-
-        else
-
-            if [[ "${relationship_type}" == '<<' ]]; then
-                apt_relationship_type='-lt'
-            elif [[ "${relationship_type}" == '<=' ]]; then
-                apt_relationship_type='-le'
-            elif [[ "${relationship_type}" == '=' ]]; then
-                apt_relationship_type='-eq'
-            elif [[ "${relationship_type}" == '>=' ]]; then
-                apt_relationship_type='-ge'
-            elif [[ "${relationship_type}" == '>>' ]]; then
-                apt_relationship_type='gt'
-            fi
-
-            if ! /usr/bin/test "${apt_package_version}" "${apt_relationship_type}" "${relationship_version}"; then
-                apt_bad_packages+=" ${i}"
-            else
-                apt_good_packages+=" ${i}"
-            fi
-        fi
+    for i in ${dependency_packages}; do
+        generate_package_parenthesis "${i}"
     done
 
-    # Remove any packages from the list of good dependencies that are already installed
-    for i in ${apt_good_packages}; do
-        if [[ "$(echo "${apt_output}" | grep -E "^${i}/" | awk '{print $4}' | grep -o '\[installed')" != '[installed' ]]; then
-            dependency_install_list+=" ${i}"
-        fi
-    done
+    apt_output="$(eval apt-get satisfy -sq ${apt_packages[@]})"
+
+    apt_bad_packages="$(echo "${apt_output}" | grep -o '[^ ]* but it is not installable' | sed 's| but it is not installable||')"
+
+    if [[ "${apt_bad_packages}" != "" ]]; then
+        echo "The following build dependencies are unable to be installed:"
+        echo "  ${apt_bad_packages}"
+        exit 1
+    fi
+
+    unset apt_bad_packages
+
+    # This gets used back in install_package() to list both build dependencies
+    # *and* packages to be built
+    apt_needed_dependencies="$(echo "${apt_output}" |
+                                sed 's|$| |g' |
+                                tr -d '\n' |
+                                grep -o 'The following NEW packages will be installed:.*[[:digit:]] upgraded' |
+                                sed 's|The following NEW packages will be installed:||' |
+                                sed 's|[[:digit:]] upgraded||' |
+                                xargs)" || true
+
 }

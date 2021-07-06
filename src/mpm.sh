@@ -7,19 +7,9 @@ unset packages operation number curl_output \
 # Variables that we need to function
 export dur_url="dur.hunterwittenborn.com"
 
+export mpm_version="git"
 export system_architecture="$(dpkg --print-architecture)"
 export os_codename="$(lsb_release -cs)"
-
-while true; do
-    random_string="${RANDOM}${RANDOM}${RANDOM}${RANDOM}${RANDOM}"
-    if ! find "/etc/apt/sources.list.d/${random_string}.list" &> /dev/null && \
-        ! find "/var/tmp/packages-${random_string}.db" &> /dev/null; then
-            break
-    fi
-
-    unset random_string
-done
-
 
 # Source functions for testing                        # REMOVE AT PACKAGING
 for i in $(find functions); do                        # REMOVE AT PACKAGING

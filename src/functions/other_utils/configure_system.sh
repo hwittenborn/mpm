@@ -7,17 +7,6 @@ configure_system() {
         fi
 
         mkdir -p "/var/tmp/mpm/builddir/" "/var/tmp/mpm/debs/"
-
-        sudo rm -f "/var/tmp/packages-${random_string}.db"
-        sudo cp "/var/lib/mpm/packages.db" "/var/tmp/packages-${random_string}.db"
-
-    elif [[ "${1}" == "cleanup" ]]; then
-        sudo rm "/var/lib/mpm/packages.db"
-        sudo cp "/var/tmp/packages-${random_string}.db" "/var/lib/mpm/packages.db"
-
-    elif [[ "${1}" == "error" ]]; then
-        if [[ "${root_status}" == "achieved" ]]; then
-            sudo rm -f "/var/tmp/packages-${random_string}.db"
-        fi
+        
     fi
 }
