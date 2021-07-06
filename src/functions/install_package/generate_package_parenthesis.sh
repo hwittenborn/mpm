@@ -25,8 +25,10 @@ generate_package_parenthesis() {
 
     # Single quotes will get removed when checking packages with APT, as we'll use 'eval'
     if [[ "${symbol_type}" != "" ]]; then
-        apt_packages+=("'${package_name} (${symbol_type} ${package_version}')")
+        apt_packages+=("'${package_name} (${symbol_type} ${package_version})'")
     else
         apt_packages+=("'${package_name}'")
     fi
+
+    unset symbol_type  package_name  package_version
 }
