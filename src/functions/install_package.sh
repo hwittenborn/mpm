@@ -95,7 +95,7 @@ install_package() {
             system_architecture="all"
         fi
 
-        makedeb -vH 'MPR-Package: True'
+        makedeb -vH "MPR-Package: ${i}"
 
         for j in ${pkgname}; do
             sudo cp "${j}_${package_version}_${system_architecture}.deb" "/var/tmp/mpm/debs/"
