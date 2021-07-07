@@ -6,7 +6,7 @@ install_package() {
     export curl_output="$(curl -s "https://${dur_url}/rpc/?v=5&type=info${dur_package_args}")"
 
     if ! echo "${curl_output}" | jq &> /dev/null; then
-        echo "There was an error processing your request."
+        echo "[install_package] There was an error processing your request."
         exit 1
     fi
 
@@ -29,10 +29,10 @@ install_package() {
         echo " ${apt_needed_dependencies}"
         echo "The following packages are going to be built:"
         echo "  ${packages}"
-        echo "The following packages are going to be installed:"
+        echo "The following packages are going to be ${operation_string}:"
         echo "  ${packages} ${apt_needed_dependencies}"
     else
-        echo "The following packages are going to be built and installed:"
+        echo "The following packages are going to be built and ${operation_string}:"
         echo "  ${packages}"
     fi
 
@@ -95,7 +95,13 @@ install_package() {
             system_architecture="all"
         fi
 
-        makedeb -vH "MPR-Package: ${i}"
+        check_for_mpr_control_field
+
+        if [[ "${mpr_package_field}" == "true" ]]; then
+            makedeb -v
+        else
+            makedeb -vH "MPR-Package: ${i}"
+        fi
 
         for j in ${pkgname}; do
             sudo cp "${j}_${package_version}_${system_architecture}.deb" "/var/tmp/mpm/debs/"
