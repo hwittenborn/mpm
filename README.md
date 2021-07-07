@@ -4,22 +4,22 @@
 </div>
 
 ## Overview ##
-mpm is a package manager for the [DUR](https://dur.hunterwittenborn.com/), making it easier to obtain and build PKGBUILDs to install packages.
+mpm is a package manager for the [MPR](https://dur.hunterwittenborn.com/), making it easier to obtain and build PKGBUILDs to install packages.
 
 Currently, mpm has (and plans for) the following features:
 
 - Searching
 - Installing
-- Updating (to-do)
+- Updating
 - Cloning (to-do)
 
 ## Installation and usage
-mpm can be installed [directly from the DUR](https://dur.hunterwittenborn.com/packages/mpm).
+mpm can be installed [directly from the MPR](https://dur.hunterwittenborn.com/packages/mpm).
 
 Help with available commands can also be found after installation with `mpm --help`.
 
 ## Get in touch ##
-A [Matrix space](https://matrix.to/#/!KOdBeHhHDQPQNLgioI:hunterwittenborn.com?via=hunterwittenborn.com&via=matrix.org&via=nerv.com.au) is available for assistance with makedeb, the DUR, and contribution help.
+A [Matrix space](https://matrix.to/#/!KOdBeHhHDQPQNLgioI:hunterwittenborn.com?via=hunterwittenborn.com&via=matrix.org&via=nerv.com.au) is available for assistance with makedeb, the MPR, and contribution help.
 
 ## Sponsors
 Thank you to the following companies who have generously given resources to help mpm:
