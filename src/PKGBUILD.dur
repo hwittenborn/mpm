@@ -1,7 +1,7 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname=mpm
-pkgver=3.5.0
+pkgver=3.6.0
 pkgrel=1
 pkgdesc="makedeb package manager"
 arch=('any')

@@ -1,5 +1,5 @@
 search_package() {
-    curl_output="$(curl -s "https://${dur_url}/rpc/?v=5&type=search&arg=${packages}")"
+    curl_output="$(curl -sH "User-Agent: mpm/${mpm_version}" "https://${dur_url}/rpc/?v=5&type=search&arg=${packages}")"
 
     if ! echo "${curl_output}" | jq &> /dev/null; then
         echo "There was an error processing the request."
