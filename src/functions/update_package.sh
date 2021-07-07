@@ -27,7 +27,7 @@ update_package() {
             continue
         fi
 
-        if [[ "${local_package_version}" != " ${rpc_package_version}" ]]; then
+        if [[ "${local_package_version}" != "${rpc_package_version}" ]]; then
             packages_to_update+=("${local_package_name}")
         fi
     done
@@ -38,7 +38,7 @@ update_package() {
     fi
 
     unset packages
-    export packages="$(echo "${packages_to_update}" | sed 's| |\n|g' | sort -u | xargs)"
+    export packages="$(echo "${packages_to_update[@]}" | sed 's| |\n|g' | sort -u | xargs)"
 
     install_package
 }

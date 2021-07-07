@@ -5,9 +5,9 @@ dependency_checks() {
         # 2. Print the results for the relevant package
         # 3. Remove 'null' if present
         # 4. Put all on one line
-        dependencies_temp+="$(echo "${curl_output}" | jq -r ".results[$number].Depends[]" 2> /dev/null | grep -v 'null' | xargs)"
-        make_dependencies_temp+="$(echo "${curl_output}" | jq -r ".results[$number].MakeDepends[]" 2> /dev/null | grep -v 'null' | xargs)"
-        check_dependencies_temp+="$(echo "${curl_output}" | jq -r ".results[$number].CheckDepends[]" 2> /dev/null | grep -v 'null' | xargs)"
+        dependencies_temp+=($(echo "${curl_output}" | jq -r ".results[$number].Depends[]" 2> /dev/null | grep -v 'null' | xargs))
+        make_dependencies_temp+=($(echo "${curl_output}" | jq -r ".results[$number].MakeDepends[]" 2> /dev/null | grep -v 'null' | xargs))
+        check_dependencies_temp+=($(echo "${curl_output}" | jq -r ".results[$number].CheckDepends[]" 2> /dev/null | grep -v 'null' | xargs))
 
         number="$(( ${number} + 1 ))"
     done
