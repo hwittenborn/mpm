@@ -38,7 +38,7 @@ update_package() {
     fi
 
     unset packages
-    declare packages="$(echo "${packages_to_update}" | sed 's| |\n|g' | sort -u | xargs)"
+    export packages="$(echo "${packages_to_update}" | sed 's| |\n|g' | sort -u | xargs)"
 
     install_package
 }

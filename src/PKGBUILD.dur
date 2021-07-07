@@ -1,9 +1,9 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname=mpm
-pkgver=3.6.0
+pkgver=3.6.1
 pkgrel=1
-pkgdesc="makedeb package manager"
+pkgdesc="Fully-featured reference MPR helper"
 arch=('any')
 depends=('jq' 'curl')
 url="https://github.com/hwittenborn/mpm"

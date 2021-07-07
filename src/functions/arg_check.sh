@@ -20,7 +20,7 @@ arg_check() {
     done
 
     # Post-argument checks
-    declare packages="$(echo "${packages_temp}" | sed 's| |\n|g' | sort -u | xargs)"
+    export packages="$(echo "${packages_temp}" | sed 's| |\n|g' | sort -u | xargs)"
 
     if [[ "${operation}" == "update" && "${packages}" != "" ]]; then
         echo "Packages cannot be specified when using the update/upgrade option."
