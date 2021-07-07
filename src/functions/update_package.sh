@@ -8,7 +8,7 @@ update_package() {
         request_arguments+="&arg[]=${i}"
     done
 
-    curl_output="$(curl -s "https://${dur_url}/rpc/?v=5&type=info${request_arguments}")"
+    curl_output="$(curl -sH "User-Agent: mpm/${mpm_version}" "https://${dur_url}/rpc/?v=5&type=info${request_arguments}")"
 
     if ! echo "${curl_output}" | jq &> /dev/null; then
         echo "[update_package] There was an error processing your request."

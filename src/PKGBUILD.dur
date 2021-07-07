@@ -1,7 +1,7 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname=mpm
-pkgver=3.4.0
+pkgver=3.5.0
 pkgrel=1
 pkgdesc="makedeb package manager"
 arch=('any')
@@ -29,4 +29,7 @@ package() {
 
     # Remove testing commands
     sed -i 's|.*# REMOVE AT PACKAGING||g' "${pkgdir}/usr/bin/mpm"
+
+    # Set package version
+    sed -i "s|mpm_version=.*|mpm_version='${pkgver}-${pkgrel}'|" "${pkgdir}/usr/bin/mpm"
 }

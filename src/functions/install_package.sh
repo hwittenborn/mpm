@@ -3,7 +3,7 @@ install_package() {
         export dur_package_args+="&arg[]=${i}"
     done
 
-    export curl_output="$(curl -s "https://${dur_url}/rpc/?v=5&type=info${dur_package_args}")"
+    export curl_output="$(curl -sH "User-Agent: mpm/${mpm_version}" "https://${dur_url}/rpc/?v=5&type=info${dur_package_args}")"
 
     if ! echo "${curl_output}" | jq &> /dev/null; then
         echo "[install_package] There was an error processing your request."
