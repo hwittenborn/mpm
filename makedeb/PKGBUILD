@@ -1,7 +1,7 @@
 # Maintainer: Hunter Wittenborn <hunter@hunterwittenborn.com>
 
 pkgname=mpm
-pkgver=3.6.3
+pkgver=3.6.4
 pkgrel=1
 pkgdesc="Fully-featured reference MPR helper"
 arch=('any')
