@@ -2,7 +2,6 @@ local publishPackage() = {
     name: "publish-package",
     kind: "pipeline",
     type: "docker",
-	trigger: {event: ["tag"]},
 
     steps: [{
         name: "publish-dur",
