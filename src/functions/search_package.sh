@@ -13,7 +13,5 @@ search_package() {
         exit 1
     fi
 
-    number="${resultcount}"
-
     generate_results | head -c -1
 }

@@ -1,4 +1,6 @@
 generate_results() {
+	number="1"
+
     while [[ "${number}" -le "${resultcount}" ]]; do
         pkgname="$(echo "${curl_output}" | jq -r .results[].Name | awk "NR==${number}")"
         pkgver="$(echo "${curl_output}" | jq -r .results[].Version | awk "NR==${number}")"
@@ -26,6 +28,9 @@ generate_results() {
         printf "  Last Modified: $(date -d "@${lastmodified}" '+%F')\n"
 
         printf '\n'
+
+		unset pkgname pkgver pkgdesc maintainer numvotes outofdate lastmodified
+		
         number=$(( "${number}" + 1 ))
     done
 }
