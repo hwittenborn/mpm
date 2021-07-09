@@ -4,14 +4,19 @@
 </div>
 
 ## Overview ##
-mpm is a package manager for the [MPR](https://dur.hunterwittenborn.com/), making it easier to obtain and build PKGBUILDs to install packages.
+mpm is a reference package manager for the [MPR](https://dur.hunterwittenborn.com/), making it easier to build and install packages from MPR PKGBUILDs.
 
-Currently, mpm has (and plans for) the following features:
+Currently, mpm has the following features:
 
 - Searching
 - Installing
 - Updating
-- Cloning (to-do)
+- Cloning
+
+The following features are planned to be added at some point:
+
+- Development (`-git`) package updates
+- MPR dependencies
 
 ## Installation and usage
 mpm can be installed [directly from the MPR](https://dur.hunterwittenborn.com/packages/mpm).
