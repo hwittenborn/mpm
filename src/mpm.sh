@@ -22,7 +22,18 @@ printf '\n'                                           # REMOVE AT PACKAGING
                                                       # REMOVE AT PACKAGING
 # Preliminary checks
 trap_codes
-arg_check ${@}
+
+# Argument Check
+arg_number="$#"
+number=1
+while [[ "${number}" -le "${arg_number}" ]]; do
+    split_args "$(eval echo \${$number})"
+    number="$(( "${number}" + 1 ))"
+done
+
+arg_check ${argument_list[@]@Q}
+
+# Colorsheet
 colorsheet
 
 # Begin script
@@ -30,4 +41,5 @@ case ${operation} in
     install)    get_root; install_package ;;
     update)     get_root; update_package ;;
     search)     search_package ;;
+	clone)      clone_package ;;
 esac
