@@ -1,3 +1,8 @@
+# DEPRECATION NOTICE
+mpm is no longer supported due to a change of direction in my development.
+
+Users wishing to continue receiving support should consider moving over to [tap](https://github.com/hwittenborn/tap) or any other MPR helper.
+
 <h1 align="center">mpm</h1>
 <div align="center">
 <img alt="Drone CI Status" src="https://img.shields.io/drone/build/hwittenborn/mpm/main?label=build&server=https%3A%2F%2Fdrone.hunterwittenborn.com">
